@@ -17,9 +17,12 @@
     </VListItem>
   </VList>
 </VNavigationDrawer>
-<VAppBar color="teal" v-if="isDesktop">
+<VAppBar color="black" image="" v-if="isDesktop" elevation="0">
+  <template v-slot:image>
+    <v-img gradient="to top right, #007991, #00cdac" />
+  </template>
   <VContainer class="d-flex align-center">
-    <VBtn to="/" :active="false">
+    <VBtn to="/" :active="false" :ripple="false" id="close-hover">
       <VAppBarTitle>台北動物醫院</VAppBarTitle>
     </VBtn>
     <VSpacer />
@@ -80,3 +83,6 @@ const navItems = computed(() => {
   ]
 })
 </script>
+<style scoped lang="sass">
+
+</style>

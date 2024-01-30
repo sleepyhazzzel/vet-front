@@ -5,12 +5,14 @@
       <VForm :disabled="isSubmitting" @submit.prevent="submit">
         <VTextField
           label="電子信箱" type="email" class="mb-3"
-          placeholder="taipeivet@gmail.com"
           v-model="email.value.value"
           :error-messages="email.errorMessage.value">
         </VTextField>
         <VTextField
-          label="密碼" type="password" class="mb-3"
+          label="密碼" class="mb-3"
+          :type="visible ? 'text' : 'password'"
+          :append-inner-icon="visible ? 'mdi-eye' : 'mdi-eye-off'"
+          @click:append-inner="visible = !visible"
           hint="密碼長度：6 ~ 20 之間"
           minlength="6" maxlength="20" counter
           v-model="password.value.value"
@@ -27,6 +29,7 @@
 // 雖然 vee-validate 也可以驗證email
 // 但是後端是用 validator 驗證
 // 如果用不同驗證會出現前端通過，後端沒過的情況
+import { ref } from 'vue'
 import validator from 'validator'
 import { useForm, useField } from 'vee-validate'
 import * as yup from 'yup'
@@ -35,6 +38,8 @@ import { useRouter } from 'vue-router'
 import { useSnackbar } from 'vuetify-use-dialog'
 import { useApi } from '@/composables/axios' // 不用打副檔名
 import { useUserStore } from '@/store/user'
+
+const visible = ref(false)
 
 const { api } = useApi()
 const router = useRouter()

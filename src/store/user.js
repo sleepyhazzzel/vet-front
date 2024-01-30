@@ -8,12 +8,14 @@ export const useUserStore = defineStore('user', () => {
 
   const token = ref('')
   const email = ref('')
+  const user_name = ref('')
 
   const login = (data) => {
     if (data.token) {
       token.value = data.token
     }
     email.value = data.email
+    user_name.value = data.user_name
   }
 
   const isLogin = computed(() => {
@@ -35,9 +37,10 @@ export const useUserStore = defineStore('user', () => {
   const logout = () => {
     token.value = ''
     email.value = ''
+    user_name.value = ''
   }
   return {
-    token, email, login, logout, isLogin, getProfile
+    token, email, user_name, login, logout, isLogin, getProfile
   }
 }, {
   persist: {

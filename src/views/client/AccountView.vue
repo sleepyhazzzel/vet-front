@@ -1,12 +1,12 @@
 <template>
-  <VContainer fluid class="pa-0">
+  <VContainer class="pa-0">
     <VLayout>
       <VNavigationDrawer>
         <VList>
           <VListItem
             :prepend-avatar="prependAdvatar"
-            title="Sandra Adams"
-            subtitle="sandra_a88@gmailcom"
+            :title="user.user_name"
+            :subtitle="user.email"
           ></VListItem>
         </VList>
         <VDivider />

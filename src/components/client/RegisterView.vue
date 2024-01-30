@@ -1,44 +1,64 @@
 <template>
 <VContainer>
-  <VRow>
-    <VCol col="12">
-      <VForm :disabled="isSubmitting" @submit.prevent="submit">
+  <VForm :disabled="isSubmitting" @submit.prevent="submit">
+    <VRow>
+      <VCol cols="6" class="py-0">
         <VTextField
-        label="身分證字號" type="text" class="mb-3"
-        placeholder="A123456789"
-        v-model="national_id.value.value"
-        :error-messages="national_id.errorMessage.value"
-        ></VTextField>
+          label="姓名" type="text"
+          color="teal"
+          v-model="user_name.value.value"
+          :error-messages="user_name.errorMessage.value" />
+      </VCol>
+      <VCol cols="6" class="py-0">
+        <VSelect
+          label="稱謂"
+          :items="['先生', '女士']"
+          color="teal"
+          v-model="honorific.value.value"
+          :error-messages="honorific.errorMessage.value" />
+      </VCol>
+      <VCol cols="12" class="py-0">
         <VTextField
-          label="電子信箱" type="email" class="mb-3"
-          placeholder="taipeivet@gmail.com"
+          label="身分證字號" type="text"
+          color="teal"
+          v-model="national_id.value.value"
+          :error-messages="national_id.errorMessage.value" />
+      </VCol>
+      <VCol cols="12" class="py-0">
+        <VTextField
+          label="電子信箱" type="email"
+          color="teal"
           v-model="email.value.value"
-          :error-messages="email.errorMessage.value">
-        </VTextField>
+          :error-messages="email.errorMessage.value" />
+      </VCol>
+      <VCol cols="12" class="py-0">
         <VTextField
-          label="手機號碼" type="tel" class="mb-3"
+          label="手機號碼" type="tel"
+          color="teal"
           placeholder="0912345678"
           v-model="phone.value.value"
-          :error-messages="phone.errorMessage.value">
-        </VTextField>
+          :error-messages="phone.errorMessage.value" />
+      </VCol>
+      <VCol cols="6" class="py-0">
         <VTextField
-          label="密碼" type="password" class="mb-3"
+          label="密碼" type="password" color="teal"
           hint="密碼長度：6 ~ 20 之間"
           minlength="6" maxlength="20" counter
           v-model="password.value.value"
-          :error-messages="password.errorMessage.value">
-        </VTextField>
+          :error-messages="password.errorMessage.value" />
+      </VCol>
+      <VCol cols="6" class="py-0">
         <VTextField
-          label="確認密碼" type="password" class="mb-3"
-          hint="請再輸入一次密碼"
+          label="確認密碼" type="password" color="teal"
           minlength="6" maxlength="20" counter
           v-model="passwordConfirm.value.value"
-          :error-messages="passwordConfirm.errorMessage.value">
-        </VTextField>
+          :error-messages="passwordConfirm.errorMessage.value" />
+      </VCol>
+      <VCol cols="12">
         <VBtn type="submit" color="teal" block>註冊</VBtn>
-      </VForm>
-    </VCol>
-  </VRow>
+      </VCol>
+    </VRow>
+  </VForm>
 </VContainer>
 </template>
 
@@ -60,6 +80,12 @@ const createSnackbar = useSnackbar()
 
 // 定義註冊表單格式
 const schema = yup.object({
+  user_name: yup
+    .string()
+    .required('姓名為必填欄位'),
+  honorific: yup
+    .string()
+    .required('稱謂為必填欄位'),
   national_id: yup
     .string()
     .required('身分證為必填欄位')
@@ -96,6 +122,8 @@ const { handleSubmit, isSubmitting } = useForm({
   validationSchema: schema
 })
 // useField('') 內容要與 schema 名稱相符
+const user_name = useField('user_name')
+const honorific = useField('honorific')
 const national_id = useField('national_id')
 const email = useField('email')
 const phone = useField('phone')
@@ -106,6 +134,8 @@ const emit = defineEmits([''])
 const submit = handleSubmit(async (values) => {
   try {
     await api.post('/users', {
+      user_name: values.user_name,
+      honorific: values.honorific,
       national_id: values.national_id,
       email: values.email,
       phone: values.phone,
