@@ -1,0 +1,103 @@
+<template>
+<VContainer>
+  <VSheet class="mx-auto pa-5" max-width="500" elevation="4">
+    <h2 class="d-flex justify-center mb-3">管理員登入</h2>
+    <VForm :disabled="isSubmitting" @submit.prevent="submit">
+      <VSelect
+      label="帳號"
+      :items="selectItems"
+      :item-props="true"
+      v-model="account.value.value"
+      :error-messages="account.errorMessage.value">
+      </VSelect>
+      <VTextField
+        label="密碼" type="password"
+        minlength="4" maxlength="20" counter
+        v-model="password.value.value"
+        :error-messages="password.errorMessage.value">
+      </VTextField>
+      <VBtn type="submit" color="teal" block>登入</VBtn>
+    </VForm>
+  </VSheet>
+</VContainer>
+</template>
+<script setup>
+import { ref, onMounted } from 'vue'
+import { useForm, useField } from 'vee-validate'
+import * as yup from 'yup'
+import { useRouter } from 'vue-router'
+import { useSnackbar } from 'vuetify-use-dialog'
+import { useApi } from '@/composables/axios-admin'
+import { useAdminStore } from '@/store/admin'
+
+const selectItems = ref([])
+
+const router = useRouter()
+const createSnackbar = useSnackbar()
+const { api } = useApi()
+const admin = useAdminStore()
+
+onMounted(async () => {
+  try {
+    const { data } = await api.get('/admins')
+    selectItems.value = data.result.map(admin => ({
+      title: admin.account,
+      subtitle: admin.position
+    }))
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+// 定義註冊表單的資料格式
+const schema = yup.object({
+  account: yup
+    .string()
+    .required('帳號為必填欄位'),
+  password: yup
+    .string()
+    .required('密碼為必填欄位')
+    .min(4, '密碼長度不符')
+    .max(20, '密碼長度不符')
+})
+
+const { handleSubmit, isSubmitting } = useForm({
+  // 跟上面的 schema 綁定
+  validationSchema: schema
+})
+
+const account = useField('account')
+const password = useField('password')
+
+const submit = handleSubmit(async (values) => {
+  try {
+    const { data } = await api.post('/admins/login', {
+      account: values.account,
+      password: values.password
+    })
+    admin.login(data.result)
+    createSnackbar({
+      text: '登入成功',
+      showCloseButton: false,
+      snackbarProps: {
+        timeout: 2000,
+        color: 'green',
+        location: 'bottom'
+      }
+    })
+    router.push('/admin')
+  } catch (error) {
+    console.log(error)
+    const text = error?.response?.data?.message || '發生錯誤，請稍後再試'
+    createSnackbar({
+      text,
+      showCloseButton: false,
+      snackbarProps: {
+        timeout: 2000,
+        color: 'red',
+        location: 'bottom'
+      }
+    })
+  }
+})
+</script>
