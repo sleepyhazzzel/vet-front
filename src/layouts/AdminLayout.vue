@@ -9,20 +9,29 @@
   <VDivider />
   <VList nav>
     <template v-for="item in navItems" :key="item.to">
-      <VListItem v-if="item.show"
+      <VListItem v-if="item.show && !item.group"
         :to="item.to"
         :prepend-icon="item.icon"
-        :title="item.text" exact />
+        :title="item.text" exact>
+      </VListItem>
+      <VListGroup v-if="item.show && item.group">
+        <template v-slot:activator="{ props }">
+          <VListItem v-bind="props"
+            :prepend-icon="item.icon"
+            :title="item.text" />
+        </template>
+        <VListItem v-for="child in item.children"
+          :key="child.to"
+          :to="child.to"
+          :title="child.text" />
+      </VListGroup>
     </template>
     <VListItem v-if="admin.isAdminLogin" @click="logout" title="登出" prepend-icon="mdi-logout" />
   </VList>
 </VNavigationDrawer>
+
 <VMain class="bg-grey-lighten-2">
-  <VBreadcrumbs :items="breadcrumbs" class="breadcrumbs">
-    <template v-slot:divider>
-      <v-icon icon="mdi-chevron-right" size="small"></v-icon>
-    </template>
-  </VBreadcrumbs>
+  <BreadCrumb />
   <RouterView />
 </VMain>
 </template>
@@ -33,6 +42,7 @@ import { useAdminStore } from '@/store/admin'
 import { useSnackbar } from 'vuetify-use-dialog'
 import { useApi } from '@/composables/axios-admin'
 import { useRouter } from 'vue-router'
+import BreadCrumb from '@/components/admin/BreadCrumb.vue'
 
 const admin = useAdminStore()
 const { apiAuth } = useApi()
@@ -45,11 +55,21 @@ const prependAdvatar = computed(() => {
 
 const navItems = computed(() => {
   return [
-    { to: '/admin', text: '管理員首頁', show: true, icon: 'mdi-home' },
-    { to: '/admin/login', text: '管理員登入', show: !admin.isAdminLogin, icon: 'mdi-login-variant' },
-    { to: '/admin/medical-record', text: '病歷總覽', show: admin.isAdminLogin, icon: 'mdi-list-box' },
-    { to: '/admin/appointment-list', text: '掛號管理', show: admin.isAdminLogin, icon: 'mdi-calendar-clock' },
-    { to: '/admin/admin-setting', text: '管理員設定', show: admin.isAdminLogin, icon: 'mdi-cog' }
+    { to: '/admin', text: '管理員首頁', show: true, icon: 'mdi-home', group: false },
+    { to: '/admin/login', text: '管理員登入', show: !admin.isAdminLogin, icon: 'mdi-login-variant', group: false },
+    { text: '病歷管理', show: admin.isAdminLogin, icon: 'mdi-list-box', group: true,
+      children: [
+        { to: '/admin/new-medical', text: '新增病例' },
+        { to: '/admin/medical-data', text: '病歷總覽' }
+      ]
+    },
+    { text: '掛號管理', show: admin.isAdminLogin, icon: 'mdi-calendar-clock', group: true,
+      children: [
+        { to: '/admin/appointment-data', text: '掛號資訊' },
+        { to: '/admin/appointment-system', text: '掛號系統' }
+      ]
+    },
+    { to: '/admin/admin-setting', text: '管理員設定', show: admin.isAdminLogin, icon: 'mdi-cog', group: false }
   ]
 })
 
@@ -80,19 +100,4 @@ const logout = async () => {
     })
   }
 }
-
-const breadcrumbs = computed(() => {
-  return [
-    { title: '管理員首頁', disabled: false, href: '/admin' },
-    { title: '管理員登入', disabled: false, href: '/admin/login' }
-  ]
-})
 </script>
-
-<style scoped lang="sass">
-.breadcrumbs
-  margin: 5px 0 0 10px
-  font-size: 0.9rem
-  font-weight: 500
-  color: teal
-</style>

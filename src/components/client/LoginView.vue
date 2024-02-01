@@ -4,12 +4,16 @@
     <VCol col="12">
       <VForm :disabled="isSubmitting" @submit.prevent="submit">
         <VTextField
-          label="電子信箱" type="email" class="mb-3"
+          type="email" color="teal" class="mb-3"
+          prepend-inner-icon="mdi-email-outline"
+          placeholder="請輸入電子信箱"
           v-model="email.value.value"
           :error-messages="email.errorMessage.value">
         </VTextField>
         <VTextField
-          label="密碼" class="mb-3"
+          color="teal" class="mb-3"
+          prepend-inner-icon="mdi-lock-outline"
+          placeholder="請輸入密碼"
           :type="visible ? 'text' : 'password'"
           :append-inner-icon="visible ? 'mdi-eye' : 'mdi-eye-off'"
           @click:append-inner="visible = !visible"

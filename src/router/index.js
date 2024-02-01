@@ -50,14 +50,20 @@ const routes = [
   },
   {
     path: '/admin',
+    name: 'Admin',
     component: () => import('@/layouts/AdminLayout.vue'),
+    meta: {
+      title: '台北動物醫院｜後台管理',
+      name: '後台管理'
+    },
     children: [
       {
         path: '',
         name: 'AdminHome',
         component: () => import('@/views/admin/HomeView.vue'),
         meta: {
-          title: '台北動物醫院｜管理首頁'
+          title: '台北動物醫院｜管理首頁',
+          name: '管理首頁'
         }
       },
       {
@@ -65,23 +71,44 @@ const routes = [
         name: 'AdminLogin',
         component: () => import('@/views/admin/AdminLogin.vue'),
         meta: {
-          title: '台北動物醫院｜管理員登入'
+          title: '台北動物醫院｜管理員登入',
+          name: '管理員登入'
         }
       },
       {
-        path: 'medical-record',
-        name: 'MedicalRecord',
-        component: () => import('@/views/admin/MedicalRecord.vue'),
+        path: 'new-medical',
+        name: 'NewMedical',
+        component: () => import('@/views/admin/NewMedical.vue'),
         meta: {
-          title: '台北動物醫院｜病歷總覽'
+          title: '台北動物醫院｜新增病例',
+          name: '新增病例'
         }
       },
       {
-        path: 'appointment-list',
-        name: 'AppointmentList',
-        component: () => import('@/views/admin/AppointView.vue'),
+        path: 'medical-data',
+        name: 'MedicalData',
+        component: () => import('@/views/admin/MedicalData.vue'),
         meta: {
-          title: '台北動物醫院｜掛號管理'
+          title: '台北動物醫院｜病歷總覽',
+          name: '病歷總覽'
+        }
+      },
+      {
+        path: 'appointment-data',
+        name: 'AppointmentData',
+        component: () => import('@/views/admin/AppointData.vue'),
+        meta: {
+          title: '台北動物醫院｜掛號資訊',
+          name: '掛號資訊'
+        }
+      },
+      {
+        path: 'appointment-system',
+        name: 'AppointmentSystem',
+        component: () => import('@/views/admin/AppointSystem.vue'),
+        meta: {
+          title: '台北動物醫院｜掛號系統',
+          name: '掛號系統'
         }
       },
       {
@@ -89,7 +116,8 @@ const routes = [
         name: 'AdminSetting',
         component: () => import('@/views/admin/AdminSetting.vue'),
         meta: {
-          title: '台北動物醫院｜管理員設定'
+          title: '台北動物醫院｜管理員設定',
+          name: '管理員設定'
         }
       }
     ]

@@ -1,39 +1,52 @@
 <template>
-<VCard class="pa-6" elevated="6">
-  <h2 class="mb-3">新增管理員</h2>
-  <VForm :disabled="isSubmitting" @submit.prevent="submit">
-    <VTextField
-      label="管理員帳號"
-      minlength="2" maxlength="20" counter
-      hint="只能使用英數字，帳號長度 2 ~ 20 之間"
-      v-model="account.value.value"
-      :error-messages="account.errorMessage.value">
-    </VTextField>
-    <v-select
-      label="職稱"
-      :items="['獸醫師', '護理師', '助理']"
-      v-model="position.value.value"
-      :errror-messages="position.errorMessage.value">
-    </v-select>
-    <VTextField
-      label="密碼" type="password"
-      minlength="4" maxlength="20" counter
-      hint="密碼長度 4 ~ 20 之間"
-      v-model="password.value.value"
-      :error-messages="password.errorMessage.value">
-    </VTextField>
-    <VBtn type="submit" color="teal">新增管理員</VBtn>
-  </VForm>
-</VCard>
+<VForm :disabled="isSubmitting" @submit.prevent="submit">
+  <VCard elevated="6">
+    <VToolbar>
+      <VBtn icon="mdi-account-plus"></VBtn>
+      <VToolbarTitle class="font-weight-light">新增管理員</VToolbarTitle>
+    </VToolbar>
+    <VCardText>
+      <VTextField
+        label="管理員帳號" color="teal"
+        minlength="2" maxlength="20" counter
+        hint="只能使用英數字，帳號長度 2 ~ 20 之間"
+        v-model="account.value.value"
+        :error-messages="account.errorMessage.value">
+      </VTextField>
+      <v-select
+        label="職稱" color="teal"
+        :items="['獸醫師', '護理師', '助理']"
+        v-model="position.value.value"
+        :errror-messages="position.errorMessage.value">
+      </v-select>
+      <VTextField
+        label="密碼" color="teal"
+        :type="visible ? 'text' : 'password'"
+        :append-inner-icon="visible ? 'mdi-eye' : 'mdi-eye-off'"
+        @click:append-inner="visible = !visible"
+        minlength="4" maxlength="20" counter
+        hint="密碼長度 4 ~ 20 之間"
+        v-model="password.value.value"
+        :error-messages="password.errorMessage.value">
+
+      </VTextField>
+      <div class="text-end">
+        <VBtn type="submit" color="teal" class="mb-1">新增管理員</VBtn>
+      </div>
+    </VCardText>
+  </VCard>
+</VForm>
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import { useForm, useField } from 'vee-validate'
 import * as yup from 'yup'
 
 import { useSnackbar } from 'vuetify-use-dialog'
 import { useApi } from '@/composables/axios-admin'
 
+const visible = ref(false)
 const { api } = useApi()
 const createSnackbar = useSnackbar()
 

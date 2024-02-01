@@ -7,6 +7,7 @@ export const useAdminStore = defineStore('admin', () => {
   const { apiAuth } = useApi()
 
   const token = ref('')
+  const _id = ref('')
   const account = ref('')
   const position = ref('')
 
@@ -14,6 +15,7 @@ export const useAdminStore = defineStore('admin', () => {
     if (data.token) {
       token.value = data.token
     }
+    _id.value = data._id
     account.value = data.account
     position.value = data.position
   }
@@ -36,12 +38,13 @@ export const useAdminStore = defineStore('admin', () => {
 
   const logout = () => {
     token.value = ''
+    _id.value = ''
     account.value = ''
     position.value = ''
   }
 
   return {
-    token, account, position, login, isAdminLogin, getProfile, logout
+    token, _id, account, position, login, isAdminLogin, getProfile, logout
   }
 }, {
   persist: {
