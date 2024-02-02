@@ -4,8 +4,14 @@
     <VToolbar>
       <VBtn icon="mdi-account-plus"></VBtn>
       <VToolbarTitle class="font-weight-light">新增管理員</VToolbarTitle>
+      <VBtn icon @click="isEditing = !isEditing" class="text-end">
+        <VFadeTransition leave-absolute>
+          <VIcon v-if="isEditing" icon="mdi-close" />
+          <VIcon v-else icon="mdi-pencil" />
+        </VFadeTransition>
+      </VBtn>
     </VToolbar>
-    <VCardText>
+    <VCardText v-if="isEditing">
       <VTextField
         label="管理員帳號" color="teal"
         minlength="2" maxlength="20" counter
@@ -47,8 +53,10 @@ import { useSnackbar } from 'vuetify-use-dialog'
 import { useApi } from '@/composables/axios-admin'
 
 const visible = ref(false)
+const isEditing = ref(false)
 const { api } = useApi()
 const createSnackbar = useSnackbar()
+const emit = defineEmits(['update'])
 
 const schema = yup.object({
   account: yup
@@ -81,6 +89,7 @@ const submit = handleSubmit(async (values) => {
       position: values.position,
       password: values.password
     })
+    emit('update')
     createSnackbar({
       text: '新增成功',
       showCloseButton: false,

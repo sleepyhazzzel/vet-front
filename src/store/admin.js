@@ -10,6 +10,7 @@ export const useAdminStore = defineStore('admin', () => {
   const _id = ref('')
   const account = ref('')
   const position = ref('')
+  const createdAt = ref('')
 
   const login = (data) => {
     if (data.token) {
@@ -18,6 +19,7 @@ export const useAdminStore = defineStore('admin', () => {
     _id.value = data._id
     account.value = data.account
     position.value = data.position
+    createdAt.value = data.createdAt
   }
 
   const isAdminLogin = computed(() => {
@@ -41,10 +43,11 @@ export const useAdminStore = defineStore('admin', () => {
     _id.value = ''
     account.value = ''
     position.value = ''
+    createdAt.value = ''
   }
 
   return {
-    token, _id, account, position, login, isAdminLogin, getProfile, logout
+    token, _id, account, position, createdAt, login, isAdminLogin, getProfile, logout
   }
 }, {
   persist: {

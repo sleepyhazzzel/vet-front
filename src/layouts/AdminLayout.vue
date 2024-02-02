@@ -1,10 +1,22 @@
 <template>
-<VNavigationDrawer theme="dark" permanent>
+<VNavigationDrawer theme="dark"
+  v-model="drawer"
+  :rail="rail"
+  @click="rail=false"
+  permanent>
   <VList v-if="admin.isAdminLogin">
     <VListItem
       :prepend-avatar="prependAdvatar"
       :title="admin.account"
-      :subtitle="admin.position" />
+      :subtitle="admin.position">
+      <template v-slot:append>
+        <VBtn
+          variant="text"
+          icon="mdi-chevron-left"
+          @click.stop="rail = !rail"
+        ></VBtn>
+      </template>
+    </VListItem>
   </VList>
   <VDivider />
   <VList nav>
@@ -37,13 +49,15 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import { useAdminStore } from '@/store/admin'
 import { useSnackbar } from 'vuetify-use-dialog'
 import { useApi } from '@/composables/axios-admin'
 import { useRouter } from 'vue-router'
 import BreadCrumb from '@/components/admin/BreadCrumb.vue'
 
+const drawer = ref(true)
+const rail = ref(false)
 const admin = useAdminStore()
 const { apiAuth } = useApi()
 const createSnackbar = useSnackbar()

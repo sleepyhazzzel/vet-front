@@ -4,11 +4,11 @@
     <h2 class="d-flex justify-center mb-3">管理員登入</h2>
     <VForm :disabled="isSubmitting" @submit.prevent="submit">
       <VSelect
-      label="帳號"
-      :items="selectItems"
-      :item-props="true"
-      v-model="account.value.value"
-      :error-messages="account.errorMessage.value">
+        label="帳號"
+        :items="selectItems"
+        :item-props="true"
+        v-model="account.value.value"
+        :error-messages="account.errorMessage.value">
       </VSelect>
       <VTextField
         label="密碼" type="password"

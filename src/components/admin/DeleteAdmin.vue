@@ -1,0 +1,102 @@
+<template>
+<VForm :disabled="isSubmitting" @submit.prevent="submit">
+  <VCard elevated="6">
+    <VToolbar>
+      <VBtn icon="mdi-account-minus"></VBtn>
+      <VToolbarTitle class="font-weight-light">刪除管理員
+      </VToolbarTitle>
+      <VBtn icon @click="isEditing = !isEditing" class="text-end">
+        <VFadeTransition leave-absolute>
+          <VIcon v-if="isEditing" icon="mdi-close" />
+          <VIcon v-else icon="mdi-pencil" />
+        </VFadeTransition>
+      </VBtn>
+    </VToolbar>
+
+    <VCardText v-if="isEditing">
+      <VTextField
+        label="帳號" color="teal"
+        v-model="account.value.value"
+        :error-messages="account.errorMessage.value"/>
+      <VTextField
+        label="密碼" color="teal"
+        v-model="password.value.value"
+        :error-messages="password.errorMessage.value"
+        :type="visible ? 'text' : 'password'"
+        :append-inner-icon="visible ? 'mdi-eye' : 'mdi-eye-off'"
+        @click:append-inner="visible = !visible" />
+      <VRow>
+        <VCol class="d-flex">
+          <VCheckbox
+            label="確認刪除"
+            color="teal"
+            density="compact"
+            hide-details
+            v-model="checkbox"
+            :rules="[v => !!v || 'You must agree to continue!']"
+            required />
+          <VBtn text="刪除" color="teal" />
+        </VCol>
+      </VRow>
+    </VCardText>
+  </VCard>
+</VForm>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+import { useForm, useField } from 'vee-validate'
+import * as yup from 'yup'
+import { api } from '@/composables/axios'
+import { useSnackbar } from 'vuetify-use-dialog'
+
+const isEditing = ref(false)
+const visible = ref(false)
+const checkbox = ref(false)
+const createSnackbar = useSnackbar()
+
+const schema = yup.object({
+  account: yup
+    .string()
+    .required('帳號為必填'),
+  password: yup
+    .string()
+    .required('密碼為必填')
+})
+
+const { handleSubmit, isSubmitting } = useForm({
+  validationSchema: schema
+})
+
+const account = useField('account')
+const password = useField('password')
+
+const submit = handleSubmit(async (values) => {
+  try {
+    // getId(傳帳號密碼bcrypt驗證)
+    await api.get('/admins', values)
+    // delete
+    // await api.delete('/admins/', values)
+    createSnackbar({
+      text: '刪除成功',
+      showCloseButton: false,
+      snackbarProps: {
+        timeout: 2000,
+        color: 'success',
+        location: 'bottom'
+      }
+    })
+  } catch (error) {
+    const text = error?.response?.data?.message || '發生錯誤，請稍後再試'
+    createSnackbar({
+      text,
+      showCloseButton: false,
+      snackbarProps: {
+        timeout: 2000,
+        color: 'error',
+        location: 'bottom'
+      }
+    })
+  }
+})
+</script>

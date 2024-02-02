@@ -3,7 +3,7 @@
   <VCard elevated="6">
     <VToolbar>
       <VBtn icon="mdi-account-edit"></VBtn>
-      <VToolbarTitle class="font-weight-light">修改管理員資料
+      <VToolbarTitle class="font-weight-light">修改管理員個人資料
       </VToolbarTitle>
       <VBtn icon @click="isEditing = !isEditing" class="text-end">
         <VFadeTransition leave-absolute>
@@ -50,12 +50,6 @@
         </VBtn>
       </div>
     </VCardText>
-    <VSnackbar
-      v-model="hasSaved"
-      :timeout="2000"
-      attach
-      position="absolute"
-      location="bottom left">Your profile has been updated</VSnackbar>
   </VCard>
 </VForm>
 </template>
@@ -68,11 +62,11 @@ import { useSnackbar } from 'vuetify-use-dialog'
 import { useApi } from '@/composables/axios-admin'
 
 const visible = ref(false)
-const hasSaved = ref(false)
 const isEditing = ref(false)
 const { apiAuth } = useApi()
 const createSnackbar = useSnackbar()
 const admin = useAdminStore()
+const emit = defineEmits(['update'])
 
 const schema = yup.object({
   account: yup
@@ -127,6 +121,7 @@ const submit = handleSubmit(async (values) => {
       _id: admin._id,
       token: admin.token
     })
+    emit('update')
     createSnackbar({
       text: '修改成功',
       showCloseButton: false,
