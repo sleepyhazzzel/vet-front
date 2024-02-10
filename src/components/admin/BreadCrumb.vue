@@ -1,6 +1,6 @@
 <template>
   <VBreadcrumbs :items="$route.matched" class="breadcrumbs">
-    <template #title="{ item }">{{ item.meta.name }}</template>
+    <template #item="{ item }">{{ item.meta.name }}</template>
     <template #divider>
       <v-icon icon="mdi-chevron-right" size="small"></v-icon>
     </template>

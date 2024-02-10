@@ -35,7 +35,8 @@
         <VTextField
           label="手機號碼" type="tel"
           color="teal"
-          placeholder="0912345678"
+          placeholder="0912-345-678"
+          v-mask="'####-###-###'"
           v-model="phone.value.value"
           :error-messages="phone.errorMessage.value" />
       </VCol>
@@ -70,8 +71,7 @@ import validator from 'validator'
 import { isNationalIdentificationNumberValid } from 'taiwan-id-validator'
 import { useForm, useField } from 'vee-validate'
 import * as yup from 'yup'
-
-// import { useRouter } from 'vue-router'
+import { mask as vMask } from 'vue-the-mask'
 import { useSnackbar } from 'vuetify-use-dialog'
 import { useApi } from '@/composables/axios' // 不用打副檔名
 
@@ -98,7 +98,10 @@ const schema = yup.object({
   phone: yup
     .string()
     .required('手機號碼為必填欄位')
-    .test('isPhone', '手機號碼格式錯誤', (value) => { return validator.isMobilePhone(value, 'zh-TW') }),
+    .test('isPhone', '手機號碼格式錯誤', (value) => {
+      value = value.replace(/-/g, '')
+      return validator.isMobilePhone(value, 'zh-TW')
+    }),
   password: yup
     .string()
     .required('密碼為必填欄位')
@@ -133,6 +136,7 @@ const emit = defineEmits([''])
 
 const submit = handleSubmit(async (values) => {
   try {
+    values.phone = values.phone.replace(/-/g, '')
     await api.post('/users', {
       user_name: values.user_name,
       honorific: values.honorific,

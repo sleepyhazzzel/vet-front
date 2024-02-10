@@ -10,7 +10,7 @@
           <AddAdmin @update="tableLoadItems" />
         </VCol>
         <VCol cols="12">
-          <DeleteAdmin />
+          <DeleteAdmin @delete="tableLoadItems" />
         </VCol>
       </VRow>
     </VCol>

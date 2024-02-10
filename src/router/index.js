@@ -98,8 +98,8 @@ const routes = [
         name: 'AppointmentData',
         component: () => import('@/views/admin/AppointData.vue'),
         meta: {
-          title: '台北動物醫院｜掛號資訊',
-          name: '掛號資訊'
+          title: '台北動物醫院｜當日掛號',
+          name: '當日掛號'
         }
       },
       {

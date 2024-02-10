@@ -8,6 +8,7 @@
     "lint": "eslint . --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "@boindil/vue-file-agent-next": "^1.0.5",
     "@mdi/font": "7.0.96",
     "axios": "^1.6.5",
     "pinia": "^2.0.23",
@@ -18,6 +19,7 @@
     "vee-validate": "^4.12.4",
     "vue": "^3.2.0",
     "vue-router": "^4.0.0",
+    "vue-the-mask": "^0.11.1",
     "vuetify": "^3.0.0",
     "vuetify-use-dialog": "^0.6.8",
     "yup": "^1.3.3"

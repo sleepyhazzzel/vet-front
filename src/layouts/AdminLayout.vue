@@ -71,7 +71,7 @@ const navItems = computed(() => {
   return [
     { to: '/admin', text: '管理員首頁', show: true, icon: 'mdi-home', group: false },
     { to: '/admin/login', text: '管理員登入', show: !admin.isAdminLogin, icon: 'mdi-login-variant', group: false },
-    { text: '病歷管理', show: admin.isAdminLogin, icon: 'mdi-list-box', group: true,
+    { text: '病歷管理', show: admin.isAdminLogin, icon: 'mdi-format-list-bulleted', group: true,
       children: [
         { to: '/admin/new-medical', text: '新增病例' },
         { to: '/admin/medical-data', text: '病歷總覽' }
@@ -79,7 +79,7 @@ const navItems = computed(() => {
     },
     { text: '掛號管理', show: admin.isAdminLogin, icon: 'mdi-calendar-clock', group: true,
       children: [
-        { to: '/admin/appointment-data', text: '掛號資訊' },
+        { to: '/admin/appointment-data', text: '當日掛號' },
         { to: '/admin/appointment-system', text: '掛號系統' }
       ]
     },
