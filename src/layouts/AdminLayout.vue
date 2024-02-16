@@ -30,12 +30,14 @@
         <template v-slot:activator="{ props }">
           <VListItem v-bind="props"
             :prepend-icon="item.icon"
-            :title="item.text" />
+            :title="item.text"
+            exact />
         </template>
         <VListItem v-for="child in item.children"
           :key="child.to"
           :to="child.to"
-          :title="child.text" />
+          :title="child.text"
+          exact />
       </VListGroup>
     </template>
     <VListItem v-if="admin.isAdminLogin" @click="logout" title="登出" prepend-icon="mdi-logout" />
@@ -71,19 +73,19 @@ const navItems = computed(() => {
   return [
     { to: '/admin', text: '管理員首頁', show: true, icon: 'mdi-home', group: false },
     { to: '/admin/login', text: '管理員登入', show: !admin.isAdminLogin, icon: 'mdi-login-variant', group: false },
-    { text: '病歷管理', show: admin.isAdminLogin, icon: 'mdi-format-list-bulleted', group: true,
+    { text: '病歷管理', show: admin.isAdminLogin, icon: 'mdi-file-document-multiple-outline', group: true,
       children: [
-        { to: '/admin/new-medical', text: '新增病例' },
+        { to: '/admin/medical-data/new', text: '新增病例' },
         { to: '/admin/medical-data', text: '病歷總覽' }
       ]
     },
-    { text: '掛號管理', show: admin.isAdminLogin, icon: 'mdi-calendar-clock', group: true,
+    { text: '掛號管理', show: admin.isAdminLogin, icon: 'mdi-calendar', group: true,
       children: [
-        { to: '/admin/appointment-data', text: '當日掛號' },
-        { to: '/admin/appointment-system', text: '掛號系統' }
+        { to: '/admin/appointment', text: '掛號資訊' },
+        { to: '/admin/appointment/system', text: '掛號系統' }
       ]
     },
-    { to: '/admin/admin-setting', text: '管理員設定', show: admin.isAdminLogin, icon: 'mdi-cog', group: false }
+    { to: '/admin/setting', text: '管理員設定', show: admin.isAdminLogin, icon: 'mdi-cog', group: false }
   ]
 })
 

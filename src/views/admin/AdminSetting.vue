@@ -58,14 +58,14 @@ import { useApi } from '@/composables/axios-admin'
 const { apiAuth } = useApi()
 
 const search = ref('')
+const admins = ref([])
+const tableLoading = ref(true)
+
 const headers = [
   { title: '帳號', key: 'account', align: 'start' },
   { title: '職稱', key: 'position', align: 'start' },
   { title: '入職日期', key: 'createdAt', align: 'start' }
 ]
-const admins = ref([])
-
-const tableLoading = ref(true)
 
 const tableLoadItems = async () => {
   try {

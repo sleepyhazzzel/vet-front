@@ -1,3 +1,3 @@
 <template>
-  <h1>appointment-system</h1>
+  <h1>掛號系統</h1>
 </template>

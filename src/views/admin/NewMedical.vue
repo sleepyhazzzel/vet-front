@@ -74,8 +74,7 @@
                   <VDatePicker
                     @input="isMenuOpen = false"
                     v-model="DateValue"
-                    color="teal"
-                  ></VDatePicker>
+                    color="teal" />
                 </VMenu>
                 <VRow>
                   <VCol cols="6">
@@ -169,11 +168,10 @@ const isMobile = computed(() => sm.value)
 
 const selectedDate = computed(() => {
   if (!DateValue.value) return null
-  // 時區問題，要減掉時區差
-  const localDate = new Date(DateValue.value.getTime() - DateValue.value.getTimezoneOffset() * 60000)
-  return localDate.toISOString().substr(0, 10)
+  return DateValue.value.toLocaleDateString()
 })
 
+// Day.js 套件功能(有空再加)
 const age = computed(() => {
   if (DateValue.value) {
     const today = new Date()
@@ -261,8 +259,6 @@ const submit = handleSubmit(async (values) => {
   try {
     if (fileRecords.value[0]?.error) throw new Error('NO_IMAGE')
 
-    chip_id.value.value = chip_id.value.value.replace(/-/g, '')
-
     const formdata = new FormData()
 
     for (const key in values) {
@@ -277,7 +273,7 @@ const submit = handleSubmit(async (values) => {
       formdata.append('owner', user._id)
     }
     // 放出生日期
-    formdata.append('birth', selectedDate)
+    formdata.append('birth', selectedDate.value)
 
     await api.post('/pets', formdata)
 

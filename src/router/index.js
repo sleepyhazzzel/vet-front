@@ -76,43 +76,74 @@ const routes = [
         }
       },
       {
-        path: 'new-medical',
-        name: 'NewMedical',
-        component: () => import('@/views/admin/NewMedical.vue'),
-        meta: {
-          title: '台北動物醫院｜新增病例',
-          name: '新增病例'
-        }
-      },
-      {
         path: 'medical-data',
-        name: 'MedicalData',
-        component: () => import('@/views/admin/MedicalData.vue'),
+        name: 'MedicalLayout',
+        component: () => import('@/layouts/MedicalLayout.vue'),
         meta: {
-          title: '台北動物醫院｜病歷總覽',
-          name: '病歷總覽'
-        }
+          title: '台北動物醫院｜病歷管理',
+          name: '病歷管理'
+        },
+        children: [
+          {
+            path: '',
+            name: 'MedicalData',
+            component: () => import('@/views/admin/MedicalData.vue'),
+            meta: {
+              title: '台北動物醫院｜病歷總覽',
+              name: '病歷總覽'
+            }
+          },
+          {
+            path: 'new',
+            name: 'NewMedical',
+            component: () => import('@/views/admin/NewMedical.vue'),
+            meta: {
+              title: '台北動物醫院｜新增病例',
+              name: '新增病例'
+            }
+          },
+          {
+            path: ':id',
+            name: 'MedicalDetail',
+            component: () => import('@/views/admin/MedicalDetail.vue'),
+            meta: {
+              title: '台北動物醫院｜病歷詳情',
+              name: '病歷詳情'
+            }
+          }
+        ]
       },
       {
-        path: 'appointment-data',
-        name: 'AppointmentData',
-        component: () => import('@/views/admin/AppointData.vue'),
+        path: 'appointment',
+        name: 'AppointmentLayout',
+        component: () => import('@/layouts/AppointmentLayout.vue'),
         meta: {
-          title: '台北動物醫院｜當日掛號',
-          name: '當日掛號'
-        }
+          title: '台北動物醫院｜掛號管理',
+          name: '掛號管理'
+        },
+        children: [
+          {
+            path: '',
+            name: 'AppointmentData',
+            component: () => import('@/views/admin/AppointData.vue'),
+            meta: {
+              title: '台北動物醫院｜掛號資訊',
+              name: '掛號資訊'
+            }
+          },
+          {
+            path: 'system',
+            name: 'AppointmentSystem',
+            component: () => import('@/views/admin/AppointSystem.vue'),
+            meta: {
+              title: '台北動物醫院｜掛號系統',
+              name: '掛號系統'
+            }
+          }
+        ]
       },
       {
-        path: 'appointment-system',
-        name: 'AppointmentSystem',
-        component: () => import('@/views/admin/AppointSystem.vue'),
-        meta: {
-          title: '台北動物醫院｜掛號系統',
-          name: '掛號系統'
-        }
-      },
-      {
-        path: 'admin-setting',
+        path: 'setting',
         name: 'AdminSetting',
         component: () => import('@/views/admin/AdminSetting.vue'),
         meta: {
