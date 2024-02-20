@@ -9,6 +9,12 @@
   },
   "dependencies": {
     "@boindil/vue-file-agent-next": "^1.0.5",
+    "@fullcalendar/core": "^6.1.10",
+    "@fullcalendar/daygrid": "^6.1.10",
+    "@fullcalendar/google-calendar": "^6.1.10",
+    "@fullcalendar/interaction": "^6.1.10",
+    "@fullcalendar/timegrid": "^6.1.10",
+    "@fullcalendar/vue3": "^6.1.10",
     "@mdi/font": "7.0.96",
     "axios": "^1.6.5",
     "pinia": "^2.0.23",

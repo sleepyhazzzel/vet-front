@@ -140,13 +140,15 @@ import { useForm, useField } from 'vee-validate'
 import * as yup from 'yup'
 import { useApi } from '@/composables/axios-admin'
 // import { useSnackbar } from 'vuetify-use-dialog'
+import { useRoute } from 'vue-router'
 import SearchDialog from '@/components/admin/SearchDialog.vue'
 
 const isMenuOpen = ref(false)
 
 const { api } = useApi()
+const route = useRoute()
 
-const { petdata } = api.get(`/pets/${$route.params.id}`)
+const { petdata } = api.get(`/pets/${route.params.id}`)
 const { ownerdata } = api.get(`/owners/${petdata.owner_id}`)
 
 const age = computed(() => {

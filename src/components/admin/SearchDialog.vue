@@ -28,7 +28,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useForm, useField } from 'vee-validate'
 import * as yup from 'yup'
 import { useApi } from '@/composables/axios-admin'
@@ -40,6 +40,11 @@ const dialog = ref(false)
 const { apiAuth } = useApi()
 const user = useUserStore()
 const createSnackbar = useSnackbar()
+const emit = defineEmits(['update'])
+
+onMounted(() => {
+  user.logout()
+})
 
 const { handleSubmit, isSubmitting } = useForm({
   validationSchema: {
@@ -60,6 +65,7 @@ const search = handleSubmit(async (values) => {
     })
     dialog.value = false
     user.login(data.result)
+    emit('update')
     createSnackbar({
       text: '查詢成功',
       showCloseButton: false,

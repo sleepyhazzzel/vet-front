@@ -59,15 +59,6 @@ const routes = [
     children: [
       {
         path: '',
-        name: 'AdminHome',
-        component: () => import('@/views/admin/HomeView.vue'),
-        meta: {
-          title: '台北動物醫院｜管理首頁',
-          name: '管理首頁'
-        }
-      },
-      {
-        path: 'login',
         name: 'AdminLogin',
         component: () => import('@/views/admin/AdminLogin.vue'),
         meta: {
@@ -138,6 +129,15 @@ const routes = [
             meta: {
               title: '台北動物醫院｜掛號系統',
               name: '掛號系統'
+            }
+          },
+          {
+            path: ':id',
+            name: 'AppointmentDetail',
+            component: () => import('@/views/admin/MedicalDetail.vue'),
+            meta: {
+              title: '台北動物醫院｜病歷資料',
+              name: '病歷資料'
             }
           }
         ]

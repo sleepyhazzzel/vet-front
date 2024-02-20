@@ -9,7 +9,7 @@
             :close-on-content-click="false">
             <template #activator="{ props }">
               <VTextField
-                label="出生日期"
+                label="診療日期"
                 :model-value="selectedDate"
                 color="teal"
                 readonly
@@ -45,6 +45,7 @@ import * as yup from 'yup'
 import { useSnackbar } from 'vuetify-use-dialog'
 import { useApi } from '@/composables/axios-admin'
 import { useRoute } from 'vue-router'
+import { useAdminStore } from '@/store/admin'
 
 const dialog = ref(false)
 // 表單對話框正在編輯商品 ID，空值為新增商品
@@ -54,6 +55,7 @@ const DateValue = ref(null)
 const createSnackbar = useSnackbar()
 const { api } = useApi()
 const route = useRoute()
+const admin = useAdminStore()
 const emit = defineEmits(['update'])
 
 const { handleSubmit, isSubmitting, resetForm } = useForm({
@@ -80,7 +82,9 @@ const openDialog = (item) => {
 const closeDialog = () => {
   dialog.value = false
   DateValue.value = new Date()
-  resetForm()
+  resetForm({
+    description: ''
+  })
 }
 
 const selectedDate = computed(() => {
@@ -90,21 +94,21 @@ const selectedDate = computed(() => {
 
 const submit = handleSubmit(async (values) => {
   try {
+    const form = {
+      date: selectedDate.value,
+      description: values.description,
+      edit_by: admin.account + ' ' + admin.position }
+
     if (dialogId.value === '') {
-      await api.post('/pets/medical/' + route.params.id, {
-        date: selectedDate.value,
-        description: values.description
-      })
+      await api.post('/pets/medical/' + route.params.id, form)
     } else {
-      await api.patch('/pets/medical/' + dialogId.value, {
-        date: selectedDate.value,
-        description: values.description
-      })
+      await api.patch(`/pets/medical/${route.params.id}/${dialogId.value}`, form)
     }
     emit('update')
     dialog.value = false
+    const text = dialogId.value === '' ? '新增成功' : '修改成功'
     createSnackbar({
-      text: '新增成功',
+      text,
       showCloseButton: false,
       snackbarProps: {
         timeout: 2000,

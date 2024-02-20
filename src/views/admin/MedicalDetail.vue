@@ -188,7 +188,7 @@
     </VCard>
   </VForm>
 </VContainer>
-<MedicalDescription :item="selectedItem" ref="elMedicalDescription" @update="tableLoadItems" />
+<DESCDialog :item="selectedItem" ref="elDESCDialog" @update="tableLoadItems" />
 </template>
 
 <script setup>
@@ -202,13 +202,13 @@ import { useApi } from '@/composables/axios-admin'
 import { useSnackbar } from 'vuetify-use-dialog'
 import { useUserStore } from '@/store/user'
 import SearchDialog from '@/components/admin/SearchDialog.vue'
-import MedicalDescription from '@/components/admin/MedicalDescription.vue'
+import DESCDialog from '@/components/admin/DescriptionDialog.vue'
 
 const isMenuOpen = ref(false)
 const tableLoading = ref(true)
 const selectedItem = ref(null)
 
-const elMedicalDescription = ref(null)
+const elDESCDialog = ref(null)
 
 const route = useRoute()
 const router = useRouter()
@@ -219,7 +219,11 @@ const { sm } = useDisplay()
 const isMobile = computed(() => sm.value)
 
 const backToMedicalData = () => {
-  router.push('/admin/medical-data')
+  if (route.path.includes('medical-data')) {
+    router.push('/admin/medical-data')
+  } else if (route.path.includes('appointment')) {
+    router.push('/admin/appointment')
+  }
 }
 
 const petSchema = yup.object({
@@ -326,12 +330,13 @@ const selectedDate = computed(() => {
 })
 
 const openDialog = (item) => {
-  elMedicalDescription.value.openDialog(item)
+  elDESCDialog.value.openDialog(item)
 }
 
 const headers = [
   { title: '日期', key: 'date' },
   { title: '描述', key: 'description' },
+  { title: '主治醫生', key: 'edit_by' },
   { title: '編輯 / 刪除', key: 'actions', align: 'center', sortable: false }
 ]
 
@@ -354,6 +359,15 @@ const submit = handleSubmit(async (values) => {
     }
     values.birth = selectedDate.value
     await api.patch('/pets/' + route.params.id, values)
+    createSnackbar({
+      text: '更新成功',
+      showCloseButton: false,
+      snackbarProps: {
+        timeout: 2000,
+        color: 'success',
+        location: 'bottom'
+      }
+    })
   } catch (error) {
     const text = error?.response?.data?.message || '發生錯誤，請稍後再試'
     createSnackbar({
