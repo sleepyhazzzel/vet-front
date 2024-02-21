@@ -77,7 +77,6 @@ const navItems = computed(() => {
   return [
     { to: '/', text: '首頁', show: true, icon: 'mdi-home' },
     { to: '/appoint', text: '預約掛號', show: true, icon: 'mdi-calendar-multiselect' },
-    { to: '/hospital', text: '急診醫院查詢', show: true, icon: 'mdi-hospital-building' },
     { to: '/setup', text: '註冊登入', show: !user.isLogin, icon: 'mdi-login-variant' },
     { to: '/account', text: '個人帳號', show: user.isLogin, icon: 'mdi-account' }
   ]

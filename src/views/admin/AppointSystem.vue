@@ -223,7 +223,7 @@ const calendarOptions = ref({
     month: 'Month',
     week: 'Week'
   },
-  googleCalendarApiKey: 'AIzaSyDBB-0Rvp5dWODMEADAx6e8WKIXN2FznVk',
+  googleCalendarApiKey: import.meta.env.VITE_GOOGLE_API_KEY,
   eventSources: [{
     googleCalendarId: 'zh-tw.taiwan#holiday@group.v.calendar.google.com',
     color: '#B2DFDB',

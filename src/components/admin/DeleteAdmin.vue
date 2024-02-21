@@ -25,6 +25,8 @@
         label="帳號"
         :items="selectItems"
         :item-props="true"
+        item-title="title"
+        item-value="value"
         v-model="account.value.value"
         :error-messages="account.errorMessage.value" />
       <VTextField
@@ -43,7 +45,7 @@
             density="compact"
             v-model="checkbox.value.value"
             :error-messages="checkbox.errorMessage.value" />
-          <VBtn text="刪除" color="teal" />
+          <VBtn text="刪除" color="teal" class="mt-1" />
         </VCol>
       </VRow>
     </VCardText>
@@ -69,7 +71,8 @@ onMounted(async () => {
     const { data } = await api.get('/admins')
     selectItems.value = data.result.map(admin => ({
       title: admin.account,
-      subtitle: admin.position
+      subtitle: admin.position,
+      value: admin._id
     }))
   } catch (error) {
     console.log(error)
@@ -85,8 +88,7 @@ const schema = yup.object({
     .required('密碼為必填'),
   checkbox: yup
     .boolean()
-    .required('請確認刪除')
-    .oneOf([true], '請確認刪除')
+    .required('請勾選確認刪除')
 })
 
 const { handleSubmit, isSubmitting } = useForm({
@@ -99,11 +101,9 @@ const checkbox = useField('checkbox')
 
 const submit = handleSubmit(async (values) => {
   try {
-    const ID = await api.get('/admins/getid', {
-      account: values.account,
+    await api.delete('/admins/' + values.account, {
       password: values.password
     })
-    await api.delete('/admins/' + ID.result._id)
     emit('delete')
     createSnackbar({
       text: '刪除成功',

@@ -1,5 +1,5 @@
 <template>
-<VForm>
+<VForm @submit.prevent="submit">
   <VContainer>
     <VRow>
       <VCol v-if="!isMobile" cols="12" md="1"></VCol>
@@ -51,15 +51,16 @@
           type="submit"
           prepend-icon="mdi-magnify"
           color="teal"
-          class="mt-3"
-          @click="submit">搜尋</VBtn>
+          :class="isMobile ? '' : 'mt-3'"
+          >搜尋</VBtn>
       </VCol>
     </VRow>
     <VDataTable
       :headers="headers"
       :items="appointments"
       :items-per-page="10"
-      :loading="tableLoading">
+      :loading="tableLoading"
+      no-data-text="請先選擇日期、時段、獸醫師並搜尋">
       <template #[`item.view`]="{ item }">
         <VBtn
           icon="mdi-eye"
@@ -84,7 +85,7 @@ import { ref, onMounted, computed } from 'vue'
 import { useDisplay } from 'vuetify'
 import { useApi } from '@/composables/axios-admin'
 import { useSnackbar } from 'vuetify-use-dialog'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { useAppointStore } from '@/store/appointment'
 
 const DateValue = ref(null)
@@ -100,11 +101,15 @@ const { sm } = useDisplay()
 const { api } = useApi()
 const createSnackbar = useSnackbar()
 const router = useRouter()
+const route = useRoute()
 const appointmentStore = useAppointStore()
 
 const isMobile = computed(() => sm.value)
 
 onMounted(async () => {
+  DateValue.value = route.query.date ? new Date(route.query.date) : null
+  time.value = route.query.time || null
+  doctor.value = route.query.doctor || null
   try {
     const { data } = await api.get('/admins')
     doctors.value = data.result
@@ -114,6 +119,7 @@ onMounted(async () => {
         subtitle: admin.position,
         value: admin._id
       }))
+    await tableLoadItems()
   } catch (error) {
     console.log(error)
   }
@@ -151,7 +157,6 @@ const tableLoadItems = async () => {
   }
   tableLoading.value = false
 }
-tableLoadItems()
 
 const submit = async () => {
   try {
@@ -162,6 +167,13 @@ const submit = async () => {
     }
     tableLoadItems()
     appointmentStore.update(form)
+    router.replace({
+      query: {
+        date: selectedDate.value,
+        time: time.value,
+        doctor: doctor.value
+      }
+    })
   } catch (error) {
     const text = error?.response?.data?.message || '發生錯誤，請稍後再試'
     createSnackbar({

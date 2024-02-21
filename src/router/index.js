@@ -23,14 +23,6 @@ const routes = [
         }
       },
       {
-        path: 'hospital',
-        name: 'Hospital',
-        component: () => import('@/views/client/HospitalView.vue'),
-        meta: {
-          title: '台北動物醫院 | 醫院查詢'
-        }
-      },
-      {
         path: 'setup',
         name: 'Setup',
         component: () => import('@/views/client/SetupView.vue'),

@@ -27,7 +27,7 @@
         :title="item.text" exact>
       </VListItem>
       <VListGroup v-if="item.show && item.group">
-        <template v-slot:activator="{ props }">
+        <template #activator="{ props }">
           <VListItem v-bind="props"
             :prepend-icon="item.icon"
             :title="item.text"
@@ -35,7 +35,6 @@
         </template>
         <template v-for="child in item.children" :key="child.to">
           <VListItem
-            v-if="child.show"
             :to="child.to"
             :title="child.text"
             exact />
@@ -57,7 +56,7 @@ import { ref, computed } from 'vue'
 import { useAdminStore } from '@/store/admin'
 import { useSnackbar } from 'vuetify-use-dialog'
 import { useApi } from '@/composables/axios-admin'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import BreadCrumb from '@/components/admin/BreadCrumb.vue'
 
 const drawer = ref(true)
@@ -65,7 +64,6 @@ const rail = ref(false)
 const admin = useAdminStore()
 const { apiAuth } = useApi()
 const createSnackbar = useSnackbar()
-const route = useRoute()
 const router = useRouter()
 
 const prependAdvatar = computed(() => {
@@ -78,15 +76,13 @@ const navItems = computed(() => {
     { text: '病歷管理', show: admin.isAdminLogin, icon: 'mdi-file-document-multiple-outline', group: true,
       children: [
         { to: '/admin/medical-data/new', text: '新增病例', show: true },
-        { to: '/admin/medical-data', text: '病歷總覽', show: true },
-        { to: '/admin/medical-data/:id', text: '病歷詳情', show: route.meta.name === '病歷詳情' }
+        { to: '/admin/medical-data', text: '病歷總覽', show: true }
       ]
     },
     { text: '掛號管理', show: admin.isAdminLogin, icon: 'mdi-calendar', group: true,
       children: [
         { to: '/admin/appointment', text: '掛號資訊', show: true },
-        { to: '/admin/appointment/system', text: '掛號系統', show: true },
-        { to: '/admin/appointment/:id', text: '病歷資料', show: route.meta.name === '病歷資料' }
+        { to: '/admin/appointment/system', text: '掛號系統', show: true }
       ]
     },
     { to: '/admin/setting', text: '管理員設定', show: admin.isAdminLogin, icon: 'mdi-cog', group: false }

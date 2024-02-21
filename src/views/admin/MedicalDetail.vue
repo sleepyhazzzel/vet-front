@@ -162,6 +162,7 @@
             </div>
             <VDataTable
               :headers="headers"
+              :sort-by="[{ key: 'date', order: 'desc' }]"
               :items="descriptions"
               :loading="tableLoading"
               :items-per-page="10"
@@ -219,11 +220,7 @@ const { sm } = useDisplay()
 const isMobile = computed(() => sm.value)
 
 const backToMedicalData = () => {
-  if (route.path.includes('medical-data')) {
-    router.push('/admin/medical-data')
-  } else if (route.path.includes('appointment')) {
-    router.push('/admin/appointment')
-  }
+  router.go(-1)
 }
 
 const petSchema = yup.object({
@@ -335,7 +332,7 @@ const openDialog = (item) => {
 
 const headers = [
   { title: '日期', key: 'date' },
-  { title: '描述', key: 'description' },
+  { title: '描述', key: 'description', sortable: false },
   { title: '主治醫生', key: 'edit_by' },
   { title: '編輯 / 刪除', key: 'actions', align: 'center', sortable: false }
 ]
