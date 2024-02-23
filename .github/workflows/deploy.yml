@@ -23,6 +23,7 @@ jobs:
           npm run build
         env: 
           VITE_API: ${{ secrets.VITE_API }}
+          VITE_GOOGLE_API_KEY: ${{ secrets.VITE_GOOGLE_API_KEY }}
       # 步驟三：部署
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
