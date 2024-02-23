@@ -13,6 +13,7 @@ export const useUserStore = defineStore('user', () => {
   const honorific = ref('先生')
   const phone = ref('')
   const national_id = ref('')
+  const address = ref('')
 
   const login = (data) => {
     if (data.token) {
@@ -24,6 +25,7 @@ export const useUserStore = defineStore('user', () => {
     honorific.value = data.honorific
     phone.value = data.phone
     national_id.value = data.national_id
+    address.value = data.address
   }
 
   const isLogin = computed(() => {
@@ -50,9 +52,10 @@ export const useUserStore = defineStore('user', () => {
     honorific.value = ''
     phone.value = ''
     national_id.value = ''
+    address.value = ''
   }
   return {
-    token, _id, email, user_name, honorific, phone, national_id, login, logout, isLogin, getProfile
+    token, _id, email, user_name, honorific, phone, national_id, address, login, logout, isLogin, getProfile
   }
 }, {
   persist: {

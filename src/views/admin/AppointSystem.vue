@@ -209,6 +209,12 @@ const submit = async () => {
 const calendarOptions = ref({
   plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin, googleCalendarPlugin],
   initialView: 'dayGridMonth',
+  validRange: function (nowDate) {
+    return {
+      start: nowDate
+      // end: ddate.addMonths(new Date(nowDate), 1)
+    }
+  },
   height: 'auto',
   selectable: true,
   fixedWeekCount: true, // 固定行數

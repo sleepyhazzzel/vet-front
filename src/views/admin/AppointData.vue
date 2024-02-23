@@ -193,7 +193,7 @@ const viewItem = (item) => {
 }
 
 const deleteItem = async (item) => {
-  api.delete(`/appointments/${item._id}`)
+  await api.delete(`/appointments/${item._id}`)
   createSnackbar({
     text: '刪除成功',
     showCloseButton: false,

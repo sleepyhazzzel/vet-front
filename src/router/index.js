@@ -1,5 +1,7 @@
 // Composables
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHashHistory, START_LOCATION } from 'vue-router'
+import { useUserStore } from '@/store/user'
+import { useAdminStore } from '@/store/admin'
 
 const routes = [
   {
@@ -154,6 +156,43 @@ const router = createRouter({
 
 router.afterEach((to, from) => {
   document.title = to.meta.title
+})
+
+router.beforeEach(async (to, from, next) => {
+  const user = useUserStore()
+  const admin = useAdminStore()
+
+  if (from === START_LOCATION) {
+    if (admin.token && to.path.includes('/admin')) {
+      await admin.getProfile()
+    } else if (user.token) {
+      await user.getProfile()
+    }
+  }
+
+  if (to.path.includes('/admin')) {
+    if (admin.isAdminLogin && to.meta.name === '管理員登入') {
+      // 如果已登入，要去登入頁，重新導向管理員設定
+      next('/admin/setting')
+    } else if (!admin.isAdminLogin && to.path.includes('/admin/')) {
+      // 如果沒登入，但是要去的頁面要登入，重新導向登入頁
+      next('/admin')
+    } else {
+      // 不重新導向
+      next()
+    }
+  } else {
+    if (user.isLogin && to.path.includes('/setup')) {
+      // 如果已登入，要去註冊或登入頁，重新導向首頁
+      next('/')
+    } else if (!user.isLogin && to.path.includes('/account')) {
+      // 如果沒登入，但是要去的頁面要登入，重新導向登入頁
+      next('/setup')
+    } else {
+      // 不重新導向
+      next()
+    }
+  }
 })
 
 export default router

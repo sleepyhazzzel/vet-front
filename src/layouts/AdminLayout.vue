@@ -20,11 +20,12 @@
   </VList>
   <VDivider />
   <VList nav>
-    <template v-for="item in navItems" :key="item.to">
+    <template v-for="item in navItems" :key="item">
       <VListItem v-if="item.show && !item.group"
         :to="item.to"
         :prepend-icon="item.icon"
-        :title="item.text" exact>
+        :title="item.text"
+        exact>
       </VListItem>
       <VListGroup v-if="item.show && item.group">
         <template #activator="{ props }">
@@ -33,7 +34,7 @@
             :title="item.text"
             exact />
         </template>
-        <template v-for="child in item.children" :key="child.to">
+        <template v-for="child in item.children" :key="child">
           <VListItem
             :to="child.to"
             :title="child.text"

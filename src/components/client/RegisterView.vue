@@ -5,7 +5,7 @@
       <VCol cols="6" class="py-0">
         <VTextField
           label="姓名" type="text"
-          color="teal"
+          color="teal" variant="solo-filled" flat rounded="lg"
           v-model="user_name.value.value"
           :error-messages="user_name.errorMessage.value" />
       </VCol>
@@ -13,50 +13,51 @@
         <VSelect
           label="稱謂"
           :items="['先生', '女士']"
-          color="teal"
+          color="teal" variant="solo-filled" flat rounded="lg"
           v-model="honorific.value.value"
           :error-messages="honorific.errorMessage.value" />
       </VCol>
       <VCol cols="12" class="py-0">
         <VTextField
           label="身分證字號" type="text"
-          color="teal"
+          color="teal" variant="solo-filled" flat rounded="lg"
           v-model="national_id.value.value"
           :error-messages="national_id.errorMessage.value" />
       </VCol>
       <VCol cols="12" class="py-0">
         <VTextField
           label="電子信箱" type="email"
-          color="teal"
+          color="teal" variant="solo-filled" flat rounded="lg"
           v-model="email.value.value"
           :error-messages="email.errorMessage.value" />
       </VCol>
       <VCol cols="12" class="py-0">
         <VTextField
           label="手機號碼" type="tel"
-          color="teal"
-          placeholder="0912-345-678"
+          color="teal" variant="solo-filled" flat rounded="lg"
           v-mask="'####-###-###'"
           v-model="phone.value.value"
           :error-messages="phone.errorMessage.value" />
       </VCol>
       <VCol cols="6" class="py-0">
         <VTextField
-          label="密碼" type="password" color="teal"
-          hint="密碼長度：6 ~ 20 之間"
+          label="密碼" type="password"
+          color="teal" variant="solo-filled" flat rounded="lg"
+          hint="密碼長度：6 - 20"
           minlength="6" maxlength="20" counter
           v-model="password.value.value"
           :error-messages="password.errorMessage.value" />
       </VCol>
       <VCol cols="6" class="py-0">
         <VTextField
-          label="確認密碼" type="password" color="teal"
+          label="確認密碼" type="password"
+          color="teal" variant="solo-filled" flat rounded="lg"
           minlength="6" maxlength="20" counter
           v-model="passwordConfirm.value.value"
           :error-messages="passwordConfirm.errorMessage.value" />
       </VCol>
       <VCol cols="12">
-        <VBtn type="submit" color="teal" block>註冊</VBtn>
+        <VBtn type="submit" color="teal" block rounded size="large">註冊</VBtn>
       </VCol>
     </VRow>
   </VForm>

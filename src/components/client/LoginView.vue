@@ -4,16 +4,14 @@
     <VCol col="12">
       <VForm :disabled="isSubmitting" @submit.prevent="submit">
         <VTextField
-          type="email" color="teal" class="mb-3"
-          prepend-inner-icon="mdi-email-outline"
-          placeholder="請輸入電子信箱"
+          type="email" color="teal" class="mb-2"
+          label="電子信箱" variant="solo-filled" flat rounded="lg"
           v-model="email.value.value"
           :error-messages="email.errorMessage.value">
         </VTextField>
         <VTextField
-          color="teal" class="mb-3"
-          prepend-inner-icon="mdi-lock-outline"
-          placeholder="請輸入密碼"
+          color="teal"
+          label="密碼" variant="solo-filled" flat rounded="lg"
           :type="visible ? 'text' : 'password'"
           :append-inner-icon="visible ? 'mdi-eye' : 'mdi-eye-off'"
           @click:append-inner="visible = !visible"
@@ -22,7 +20,8 @@
           v-model="password.value.value"
           :error-messages="password.errorMessage.value">
         </VTextField>
-        <VBtn type="submit" color="teal" block>登入</VBtn>
+        <VCheckbox label="記住我的帳號" color="teal" />
+        <VBtn type="submit" color="teal" block rounded size="large">登入</VBtn>
       </VForm>
     </VCol>
   </VRow>
@@ -105,3 +104,7 @@ const submit = handleSubmit(async (values) => {
   }
 })
 </script>
+
+<style scoped lang="sass">
+
+</style>
