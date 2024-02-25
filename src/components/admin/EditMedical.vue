@@ -81,7 +81,7 @@
             </VCol>
             <VCol cols="6">
               <VTextField
-                label="年齡"
+                label="月份"
                 v-model="month"
                 suffix="(月)"
                 color="teal"

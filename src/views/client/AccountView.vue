@@ -1,246 +1,192 @@
 <template>
   <div class="bg"></div>
-  <VContainer style="margin-top: -15vh;">
+  <VContainer :style="isDesktop ? 'margin-top: -11vh;' : 'margin-top: -20vh;'">
     <VRow>
       <VCol cols="12" md="10" offset-md="1">
+        <div v-if="!isDesktop" class="ma-3 title">個人帳號</div>
         <VCard class="px-4 py-2">
           <VList class="pb-0">
             <VListItem
-              :prepend-avatar="prependAdvatar">
+              :prepend-avatar="prependAdvatar" class="pe-0">
                 <v-list-item-title>
-                  {{ user.user_name }}({{ user.honorific }})
+                  {{ user.user_name }}
+                  <span class="small-title"> ({{ user.honorific }})</span>
                 </v-list-item-title>
                 <template #append>
-                  <VBtn icon="mdi-pencil" color="grey" variant="text"></VBtn>
+                  <EditUserDialog />
                 </template>
             </VListItem>
           </VList>
           <VDivider class="my-1" />
-          <VRow>
-            <VCol v-for="item in userItems" :key="item" cols="3">
-              <VList class="pa-0" disabled>
-                <VListItem :prepend-icon="item.icon">{{ item.text }}</VListItem>
-              </VList>
-            </VCol>
-          </VRow>
+          <div>
+            <VList class="pa-0 d-flex flex-column flex-md-row justify-md-space-between overflow-hidden" disabled>
+              <VListItem v-for="item in userItems" :key="item"
+                :prepend-icon="item.icon">{{ item.text }}
+              </VListItem>
+            </VList>
+          </div>
         </VCard>
       </VCol>
-      <VCol cols="12" md="5" offset-md="1">
+      <VCol cols="12" md="10" offset-md="1">
         <VCard class="pa-3">
-          <VCardTitle class="card-title">寵物資料</VCardTitle>
-          <VItemGroup mandatory>
+          <div class="d-flex justify-space-between">
+            <VCardTitle class="card-title">寵物資料</VCardTitle>
+            <AddPet @update="getPets" />
+          </div>
+          <VDivider class="mt-1 mb-sm-3" />
+          <div class="d-flex flex-column flex-sm-row">
             <VRow>
-              <VCol v-for="n in 3" :key="n" cols="6">
-                <v-item v-slot="{ isSelected, toggle }">
-                  <VCard
-                    :color="isSelected ? 'teal' : ''"
-                    class="d-flex align-center"
-                    dark
-                    height="150"
-                    @click="toggle">
-                    <v-scroll-y-transition>
-                      <div class="text-h3 flex-grow-1 text-center">
-                        {{ isSelected ? 'Selected' : 'Click Me!' }}
-                      </div>
-                    </v-scroll-y-transition>
-                  </VCard>
-                </v-item>
+              <VCol cols="12" sm="2" :class="isDesktop ? '' : 'mt-3 pb-0'">
+                <VTabs v-model="tab"
+                  :direction="isDesktop ? 'vertical' : 'horizontal'"
+                  color="teal">
+                  <VTab v-for="(pet, n) in pets" :key="n" :value="n"
+                    :class="tab === n ? 'tab-focus' : ''"
+                    :rounded="isDesktop ? 'e' : 't'">
+                    {{ pet.name }}
+                  </VTab>
+                </VTabs>
+              </VCol>
+              <VCol cols="12" sm="10" :class="isDesktop ? '' : 'py-0'">
+                <VWindow v-model="tab"
+                  class="pa-3 rounded bg-grey-lighten-2"
+                  touch>
+                  <VWindowItem v-for="(pet, n) in pets" :key="n" :value="n">
+                    <VCard class="pa-3 mb-3">
+                      <VCardTitle class="card-title">基本資料</VCardTitle>
+                        <VCard class="mx-2" flat>
+                          <template #prepend>
+                          <VAvatar :size="isDesktop ? '60' : '40'" class="me-2">
+                            <VImg :src="pet.image" cover />
+                          </VAvatar>
+                          </template>
+                          <template #title>
+                            {{ pet.name }}<span class="small-title"> ({{ pet.species }})</span>
+                          </template>
+                          <template #subtitle>
+                            <p class="text-caption">晶片號碼：{{ pet.chip_id }}</p>
+                          </template>
+                          <template #append>
+                          <VIcon
+                            :icon="pet.gender === '公' ? 'mdi-gender-male' : 'mdi-gender-female'"
+                            color="teal"
+                            size="40"/>
+                          </template>
+                        </VCard>
+                        <VSheet class="mx-2 mb-2 px-3 sheet" rounded>
+                          <VCardText>
+                            <VRow>
+                              <VCol cols="12" sm="4">
+                                <p>體重</p>
+                                <span class="text-h6">{{ pet.weight }}</span>(g)
+                              </VCol>
+                              <VDivider v-if="isDesktop" color="teal" vertical />
+                              <VCol cols="12" sm="4">
+                                <p>年齡</p>
+                                <span class="text-h6">{{ pet.age }}</span> 歲 <span class="text-h6">{{ pet.month }}</span> 月
+                              </VCol>
+                              <VDivider v-if="isDesktop" color="teal" vertical />
+                              <VCol cols="12" sm="4">
+                                <p>出生日期</p>
+                                <span class="text-h6">{{ pet.birth }}</span>
+                              </VCol>
+                            </VRow>
+                          </VCardText>
+                        </VSheet>
+                    </VCard>
+                    <VCard>
+                      <VCardTitle class="ma-3 card-title">掛號紀錄</VCardTitle>
+                      <AppointTable :id="pet._id" />
+                    </VCard>
+                  </VWindowItem>
+                </VWindow>
               </VCol>
             </VRow>
-          </VItemGroup>
-        </VCard>
-      </VCol>
-      <VCol cols="12" md="5">
-        <VCard class="pa-3 mb-3">
-          <VCardTitle class="card-title">基本資料</VCardTitle>
-          <template v-for="pet in pets" :key="pet">
-            <VCard class="mx-2">
-              <template #prepend>
-              <VAvatar size="60" class="me-2">
-                <VImg :src="pet.image" cover />
-              </VAvatar>
-              </template>
-              <template #title>
-                {{ pet.name }}<span class="small-title"> ({{ pet.species }})</span>
-              </template>
-              <template #subtitle>
-                <p class="text-caption">晶片號碼：{{ pet.chip_id }}</p>
-              </template>
-              <template #append>
-              <VIcon
-                :icon="pet.gender === '公' ? 'mdi-gender-male' : 'mdi-gender-female'"
-                color="teal"
-                size="40"/>
-              </template>
-            </VCard>
-            <VSheet class="mx-2 mb-2 px-3 sheet" rounded>
-              <VCardText>
-                <VRow>
-                  <VCol cols="4">
-                    <p>體重</p>
-                    <span class="text-h6">{{ pet.weight }}</span>(g)
-                  </VCol>
-                  <VDivider color="teal" vertical />
-                  <VCol cols="4">
-                    <p>年齡</p>
-                    <span class="text-h6">{{ pet.age }}</span> 歲 <span class="text-h6">{{ pet. month }}</span> 月
-                  </VCol>
-                  <VDivider color="teal" vertical />
-                  <VCol cols="4">
-                    <p>出生日期</p>
-                    <span class="text-h6">{{ pet.birth}}</span>
-                  </VCol>
-                </VRow>
-              </VCardText>
-            </VSheet>
-          </template>
-        </VCard>
-        <VCard>
-          <VCardTitle class="ma-3 card-title">掛號紀錄</VCardTitle>
-          <VDataTable
-            :headers="headers"
-            :items="appointments"
-            :items-per-page="5"
-            class="elevation-1">
-            <template #[`item.actions`]="{ item }">
-              <VBtn
-                color="teal"
-                variant="text"
-                @click="showAppointment(item)">取消
-              </VBtn>
-            </template>
-          </VDataTable>
+          </div>
         </VCard>
       </VCol>
     </VRow>
   </VContainer>
+  <!-- <VDialog v-model="dialog" max-width="300" persistent>
+    <VCard>
+      <VCardText>
+        <div class="text-center">
+          <div class="text-h6 mt-3 mb-8">確定取消預約掛號？</div>
+          <div class="mb-3">
+            <VBtn
+              color="teal"
+              class="me-3"
+              variant="text"
+              @click="dialog = false">取消
+            </VBtn>
+            <VBtn
+              color="teal"
+              @click="delAppoint">確定
+            </VBtn>
+          </div>
+        </div>
+      </VCardText>
+    </VCard>
+  </VDialog> -->
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 import { useUserStore } from '@/store/user'
-import { useSnackbar } from 'vuetify-use-dialog'
+// import { useSnackbar } from 'vuetify-use-dialog'
 import { useApi } from '@/composables/axios'
 import { useDisplay } from 'vuetify'
+import EditUserDialog from '@/components/client/EditUserDialog.vue'
+import AddPet from '@/components/client/AddPet.vue'
+import AppointTable from '@/components/client/AppointTable.vue'
 
 const user = useUserStore()
-const createSnackbar = useSnackbar()
-const { api, apiAuth } = useApi()
+// const createSnackbar = useSnackbar()
+const { api } = useApi()
 const { smAndUp } = useDisplay()
 
+const tab = ref(0)
 const pets = ref([])
+// const appointments = ref([])
 const isDesktop = computed(() => smAndUp.value)
 
 const prependAdvatar = computed(() => {
+  // 中文名稱編碼轉換
   const encode_name = encodeURIComponent(user.user_name)
   return `https://source.boringavatars.com/beam/120/${encode_name}?colors=545454,7B8A84,B2DFDB,EDE7D5,B7CC18`
 })
 
-onMounted(async () => {
+const getPets = async () => {
   if (!user.address) {
     user.address = '尚未填寫'
   }
+  try {
+    const { data } = await api.get(`/pets/owner/${user._id}`)
+    if (!data.result) return
+    // 計算年齡
+    data.result.forEach(pet => {
+      pet.birth = new Date(pet.birth).toLocaleDateString('zh-TW')
+      pet.age = new Date().getFullYear() - new Date(pet.birth).getFullYear()
+      pet.month = new Date().getMonth() - new Date(pet.birth).getMonth()
+      if (pet.month < 0 || (pet.month === 0 && new Date().getDate() < new Date(pet.birth).getDate())) {
+        pet.age -= 1
+        pet.month += 12
+      }
+    })
+    pets.value = data.result
+  } catch (error) {
+    console.log(error)
+  }
+}
+getPets()
 
-  const { data } = await api.get(`/pets/owner/${user._id}`)
-  if (!data.result) return
-
-  pets.value = data.result.map(pet => {
-    pet.birth = new Date(pet.birth).toLocaleDateString('zh-TW')
-    pet.age = new Date().getFullYear() - new Date(pet.birth).getFullYear()
-    pet.month = new Date().getMonth() - new Date(pet.birth).getMonth()
-    if (pet.month < 0 || (pet.month === 0 && new Date().getDate() < new Date(pet.birth).getDate())) {
-      pet.age -= 1
-      pet.month += 12
-    }
-    return {
-      name: pet.name,
-      species: pet.species,
-      breed: pet.breed,
-      gender: pet.gender,
-      birth: pet.birth,
-      age: pet.age,
-      month: pet.month,
-      weight: pet.weight,
-      chip_id: pet.chip_id,
-      image: pet.image
-    }
-  })
-})
-
-const userItems = [
+const userItems = computed(() => [
   { icon: 'mdi-phone', text: user.phone },
   { icon: 'mdi-card-account-details', text: user.national_id },
   { icon: 'mdi-map-marker', text: user.address },
   { icon: 'mdi-email', text: user.email }
-]
+])
 
-const headers = [
-  { title: '日期', key: 'date' },
-  { title: '時段', key: 'time' },
-  { title: '獸醫師', key: 'doctor' },
-  { title: '操作', key: 'actions', align: 'center', sortable: false }
-]
-
-const appointments = [
-  {
-    date: '2021-09-01',
-    time: '09:00',
-    doctor: '王小明',
-    status: '已完成'
-  },
-  {
-    date: '2021-09-01',
-    time: '09:00',
-    doctor: '王小明',
-    status: '已完成'
-  },
-  {
-    date: '2021-09-01',
-    time: '09:00',
-    doctor: '王小明',
-    status: '已完成'
-  },
-  {
-    date: '2021-09-01',
-    time: '09:00',
-    doctor: '王小明',
-    status: '已完成'
-  },
-  {
-    date: '2021-09-01',
-    time: '09:00',
-    doctor: '王小明',
-    status: '已完成'
-  }
-]
-
-// const logout = async () => {
-//   try {
-//     await apiAuth.delete('/users/logout')
-//     user.logout()
-//     createSnackbar({
-//       text: '登出成功',
-//       showCloseButton: false,
-//       snackbarProps: {
-//         timeout: 2000,
-//         color: 'success',
-//         location: 'bottom'
-//       }
-//     })
-//     router.push('/')
-//   } catch (error) {
-//     const text = error?.responce?.data?.message || '發生錯誤，請稍後再試'
-//     createSnackbar({
-//       text,
-//       showCloseButton: false,
-//       snackbarProps: {
-//         timeout: 2000,
-//         color: 'warning',
-//         location: 'bottom'
-//       }
-//     })
-//   }
-// }
 </script>
 
 <style scoped lang="sass">
@@ -248,6 +194,10 @@ const appointments = [
   background-image: linear-gradient(45deg, #009688, #80CBC4)
   width: 100%
   height: 30vh
+.title
+  font-size: 1.8rem
+  font-weight: 500
+  color: white
 .card-title
   font-size: 1rem
   font-weight: 500
@@ -257,4 +207,13 @@ const appointments = [
 .sheet
   background-color: rgba(0, 150, 136, 0.1)
   color: #009688
+.tab-focus
+  background-color: rgba(0, 150, 136, 0.1)
+  font-weight: 700
+  transition: all 0.3s
+
+:deep(.v-list-item__prepend)
+  padding-right: 20px
+:deep(.v-list-item__spacer)
+  display: none
 </style>

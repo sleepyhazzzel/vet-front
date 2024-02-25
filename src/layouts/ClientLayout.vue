@@ -69,20 +69,13 @@
 <!-- 手機版 -->
 <VFooter v-if="isMobile">
   <VRow class="overflow-visible" style="height: 56px;">
-    <VBottomNavigation mode="shift" bg-color="teal" v-model="selectedNavItem">
+    <VBottomNavigation bg-color="teal" v-model="selectedNavItem">
       <template v-for="item in navItems" :key="item">
         <VBtn v-if="item.show" :to="item.to" exact>
           <VIcon>{{ item.icon }}</VIcon>
           <span>{{ item.text }}</span>
         </VBtn>
       </template>
-      <VBtn v-if="user.isLogin"
-        color="grey"
-        rounded
-        @click="logout">
-        <VIcon>mdi-logout</VIcon>
-        <span>登出</span>
-      </VBtn>
     </VBottomNavigation>
   </VRow>
 </VFooter>
@@ -110,8 +103,9 @@ const isMobile = computed(() => xs.value)
 
 const navItems = computed(() => {
   return [
-    { to: '/', text: '首頁', show: true, icon: 'mdi-home' },
+    { to: '/', text: '首頁', show: isPad.value, icon: 'mdi-home' },
     { to: '/appoint', text: '預約掛號', show: true, icon: 'mdi-calendar' },
+    { text: '看診進度', show: true, icon: 'mdi-calendar-search' },
     { to: '/setup', text: '註冊登入', show: !user.isLogin, icon: 'mdi-login-variant' },
     { to: '/account', text: '個人帳號', show: user.isLogin, icon: 'mdi-account' }
   ]

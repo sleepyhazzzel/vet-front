@@ -100,6 +100,9 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import googleCalendarPlugin from '@fullcalendar/google-calendar'
 import SearchDialog from '@/components/admin/SearchDialog.vue'
+import { useDate } from 'vuetify'
+const startDate = useDate()
+// const endDate = useDate()
 
 const dialog = ref(false)
 const date = ref('')
@@ -188,7 +191,6 @@ const submit = async () => {
         maxWidth: 300
       },
       confirmationButtonProps: {
-        variant: 'tonal',
         color: 'teal'
       }
     })
@@ -211,8 +213,8 @@ const calendarOptions = ref({
   initialView: 'dayGridMonth',
   validRange: function (nowDate) {
     return {
-      start: nowDate
-      // end: ddate.addMonths(new Date(nowDate), 1)
+      start: startDate.addDays(new Date(nowDate), -1)
+      // end: endDate.addMonths(new Date(nowDate), 1)
     }
   },
   height: 'auto',
@@ -259,6 +261,10 @@ const calendarOptions = ref({
     }
   ],
   eventClick: (info) => {
+    if (info.event.allDay) return
+    // Prevent redirect to Google Calendar
+    console.log(info.event)
+
     dialog.value = true
     date.value = info.event.startStr.substring(0, 10)
     time.value = info.event.title

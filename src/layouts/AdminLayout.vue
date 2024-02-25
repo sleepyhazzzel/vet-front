@@ -58,6 +58,7 @@ import { useAdminStore } from '@/store/admin'
 import { useSnackbar } from 'vuetify-use-dialog'
 import { useApi } from '@/composables/axios-admin'
 import { useRouter } from 'vue-router'
+// import { useDisplay } from 'vuetify'
 import BreadCrumb from '@/components/admin/BreadCrumb.vue'
 
 const drawer = ref(true)
@@ -66,6 +67,23 @@ const admin = useAdminStore()
 const { apiAuth } = useApi()
 const createSnackbar = useSnackbar()
 const router = useRouter()
+// const { smAndUp } = useDisplay()
+
+// const isDesktop = computed(() => smAndUp.value)
+
+// rail.value = computed(() => {
+//   // rail.value = false 代表是展開狀態
+//   // 如果是不是展開(rail.value = true)，不繼續執行
+//   if (rail.value) return
+
+//   // 如果是桌機以上，展開
+//   // 如果是手機，收起
+//   if (isDesktop.value) {
+//     return false
+//   } else {
+//     return true
+//   }
+// })
 
 const prependAdvatar = computed(() => {
   return `https://source.boringavatars.com/beam/120/${admin.account}?colors=545454,7B8A84,B2DFDB,EDE7D5,B7CC18`

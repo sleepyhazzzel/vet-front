@@ -6,14 +6,14 @@
   @click="backToMedicalData">返回</VBtn>
 <VContainer>
   <VForm :disabled="isSubmitting" @submit.prevent="submit">
-    <VCard>
+    <VCard class="mb-3">
       <VToolbar>
         <VIcon class="ms-4">mdi-paw</VIcon>
         <VToolbarTitle class="ms-2">編輯寵物病歷</VToolbarTitle>
       </VToolbar>
       <VCardText>
         <VRow>
-          <VCol cols="12" md="8">
+          <VCol cols="12" md="8" class="pb-0">
             <div class="text-subtitle-1 font-weight-medium ms-2 mb-2">基本資訊</div>
             <VRow>
               <VCol cols="12" md="6">
@@ -88,7 +88,7 @@
                   </VCol>
                   <VCol cols="6">
                     <VTextField
-                      label="年齡"
+                      label="月份"
                       v-model="month"
                       suffix="(月)"
                       color="teal"
@@ -106,7 +106,7 @@
           </VCol>
           <VDivider v-if="isMobile" class="mx-3" />
           <VDivider v-else vertical class="my-3" />
-          <VCol cols="12" md="4">
+          <VCol cols="12" md="4" class="pb-0">
             <VRow>
               <VCol cols="12">
                 <div class="d-flex justify-space-between align-center">
@@ -137,7 +137,7 @@
           <div v-if="isMobile" class="text-end">
             <VBtn color="teal" type="submit" class="mb-4">更新寵物病歷</VBtn>
           </div>
-          <VRow v-else style="height: 215px;">
+          <VRow v-else style="height: 220px;">
             <VCol cols="12" align-self="end">
               <div class="text-end">
                 <VBtn color="teal" type="submit" flat>更新寵物病歷</VBtn>
@@ -147,7 +147,10 @@
 
           </VCol>
         </VRow>
-        <VDivider class="mb-4" />
+      </VCardText>
+    </VCard>
+    <VCard>
+      <VCardText class="pb-0">
         <VRow>
           <VCol cols="12">
             <div class="d-flex justify-space-between align-center">
@@ -238,7 +241,6 @@ const petSchema = yup.object({
     .required('性別為必填欄位'),
   weight: yup
     .number()
-    .typeError('商品價格格式錯誤')
     .required('體重為必填欄位'),
   personality: yup
     .string()
@@ -267,13 +269,18 @@ const descriptions = ref([])
 onMounted(async () => {
   try {
     const { data: petdata } = await api.get(`/pets/${route.params.id}`)
+    console.log(petdata.result)
     name.value.value = petdata.result.name
     species.value.value = petdata.result.species
     breed.value.value = petdata.result.breed
     gender.value.value = petdata.result.gender
     weight.value.value = petdata.result.weight
     DateValue.value = new Date(petdata.result.birth)
-    personality.value.value = petdata.result.personality
+    if (!petdata.result.personality) {
+      personality.value.value = ''
+    } else {
+      personality.value.value = petdata.result.personality
+    }
     chip_id.value.value = petdata.result.chip_id.replace(/-/g, '')
     image.value = petdata.result.image
 
