@@ -5,7 +5,9 @@
     :items="appointments"
     :items-per-page="10"
     :loading="tableLoading"
-    no-data-text="無掛號紀錄">
+    no-data-text="無掛號紀錄"
+    :class="tableClass"
+    >
     <template #[`item.actions`]="{ item }">
       <VBtn v-if="!item.status"
         color="teal"
@@ -38,9 +40,10 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useApi } from '@/composables/axios'
 import { useSnackbar } from 'vuetify-use-dialog'
+import { useRoute } from 'vue-router'
 
 const props = defineProps({
   id: String
@@ -52,6 +55,11 @@ const appointments = ref([])
 
 const { apiAuth } = useApi()
 const createSnackbar = useSnackbar()
+const route = useRoute()
+
+const tableClass = computed(() => {
+  return route.meta.name.includes('病歷') ? 'mb-4 elevation-1' : 'pa-3'
+})
 
 const headers = [
   { title: '日期', key: 'date' },
@@ -97,8 +105,3 @@ const delAppoint = async () => {
   }
 }
 </script>
-<style scoped lang="sass">
-:deep(table)
-  padding-left: 12px
-  padding-right: 10px
-</style>

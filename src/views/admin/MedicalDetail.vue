@@ -73,7 +73,7 @@
                       v-bind="props" />
                   </template>
                   <VDatePicker
-                    @input="isMenuOpen = false"
+                    @update:model-value="isMenuOpen = false"
                     v-model="DateValue"
                     color="teal" />
                 </VMenu>
@@ -144,52 +144,63 @@
               </div>
             </VCol>
           </VRow>
-
           </VCol>
         </VRow>
       </VCardText>
     </VCard>
-    <VCard>
-      <VCardText class="pb-0">
-        <VRow>
-          <VCol cols="12">
-            <div class="d-flex justify-space-between align-center">
-              <div class="text-subtitle-1 font-weight-medium ms-2 mb-2">診療紀錄</div>
-              <VBtn
-                color="teal"
-                density="compact"
-                variant="text"
-                class="align-self-start"
-                @click="openDialog(item)">新增診療紀錄
-              </VBtn>
-            </div>
-            <VDataTable
-              :headers="headers"
-              :sort-by="[{ key: 'date', order: 'desc' }]"
-              :items="descriptions"
-              :loading="tableLoading"
-              :items-per-page="10"
-              :no-data-text="tableLoading ? '載入中...' : '無資料'"
-              color="teal"
-              class="mb-4 elevation-1"
-              >
-              <template #[`item.actions`]="{ item }">
-                <VBtn
+    <VRow>
+      <VCol cols="12" md="6">
+        <VCard>
+          <VCardText class="pb-0">
+            <VRow>
+              <VCol cols="12">
+                <div class="d-flex justify-space-between align-center">
+                  <div class="text-subtitle-1 font-weight-medium ms-2 mb-2">診療紀錄</div>
+                  <VBtn
+                    color="teal"
+                    density="compact"
+                    variant="text"
+                    class="align-self-start"
+                    @click="openDialog(item)">新增診療紀錄
+                  </VBtn>
+                </div>
+                <VDataTable
+                  :headers="headers"
+                  :sort-by="[{ key: 'date', order: 'desc' }]"
+                  :items="descriptions"
+                  :loading="tableLoading"
+                  :items-per-page="10"
+                  :no-data-text="tableLoading ? '載入中...' : '無診療紀錄'"
                   color="teal"
-                  icon="mdi-pencil"
-                  variant="text"
-                  @click="openDialog(item)" />
-                <VBtn
-                  icon="mdi-delete"
-                  variant="text"
-                  color="grey"
-                  @click="deleteItem(item)" />
-              </template>
-            </VDataTable>
-          </VCol>
-        </VRow>
-      </VCardText>
-    </VCard>
+                  class="mb-4 elevation-1"
+                  >
+                  <template #[`item.actions`]="{ item }">
+                    <VBtn
+                      color="teal"
+                      icon="mdi-pencil"
+                      variant="text"
+                      @click="openDialog(item)" />
+                    <VBtn
+                      icon="mdi-delete"
+                      variant="text"
+                      color="grey"
+                      @click="deleteItem(item)" />
+                  </template>
+                </VDataTable>
+              </VCol>
+            </VRow>
+          </VCardText>
+        </VCard>
+      </VCol>
+      <VCol cols="12" md="6">
+        <VCard>
+          <VCardText class="pb-0">
+            <div class="text-subtitle-1 font-weight-medium ms-2 mb-2">掛號紀錄</div>
+            <AppointTable :id="route.params.id" />
+          </VCardText>
+        </VCard>
+      </VCol>
+    </VRow>
   </VForm>
 </VContainer>
 <DESCDialog :item="selectedItem" ref="elDESCDialog" @update="tableLoadItems" />
@@ -207,6 +218,7 @@ import { useSnackbar } from 'vuetify-use-dialog'
 import { useUserStore } from '@/store/user'
 import SearchDialog from '@/components/admin/SearchDialog.vue'
 import DESCDialog from '@/components/admin/DescriptionDialog.vue'
+import AppointTable from '@/components/client/AppointTable.vue'
 
 const isMenuOpen = ref(false)
 const tableLoading = ref(true)

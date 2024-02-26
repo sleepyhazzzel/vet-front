@@ -19,7 +19,7 @@
               v-bind="props" />
           </template>
           <VDatePicker
-            @input="isMenuOpen = false"
+            @update:model-value="isMenuOpen = false"
             v-model="DateValue"
             color="teal" />
         </VMenu>
@@ -61,6 +61,13 @@
       :items-per-page="10"
       :loading="tableLoading"
       no-data-text="請先選擇日期、時段、獸醫師並搜尋">
+      <template #[`item.status`]="{ item }">
+        <VCheckbox
+          :model-value="item.status"
+          color="teal"
+          hide-details
+          @click="updateItem(item)" />
+      </template>
       <template #[`item.view`]="{ item }">
         <VBtn
           icon="mdi-eye"
@@ -131,11 +138,12 @@ const selectedDate = computed(() => {
 })
 
 const headers = [
-  { title: '掛號號碼', key: 'order' },
+  { title: '#', key: 'order' },
   { title: '寵物', key: 'pet_name' },
   { title: '種族', key: 'pet_species' },
   { title: '品種', key: 'pet_breed' },
   { title: '性格', key: 'pet_personality' },
+  { title: '已完成', key: 'status', align: 'center', sortable: false },
   { title: '檢視', key: 'view', align: 'center', sortable: false },
   { title: '刪除', key: 'delete', align: 'center', sortable: false }
 ]
@@ -188,6 +196,27 @@ const submit = async () => {
   }
 }
 
+const updateItem = async (item) => {
+  if (item.status) {
+    item.status = false
+  } else {
+    item.status = true
+  }
+  await api.patch(`/appointments/${item._id}`, {
+    status: item.status
+  })
+  const text = item.status ? `${item.pet_name} 已完成` : `${item.pet_name} 未完成`
+  createSnackbar({
+    text,
+    showCloseButton: false,
+    snackbarProps: {
+      timeout: 2000,
+      color: 'success',
+      location: 'bottom'
+    }
+  })
+}
+
 const viewItem = (item) => {
   router.push(`/admin/appointment/${item.pet}`)
 }
@@ -213,4 +242,7 @@ const deleteItem = async (item) => {
 
 :deep(.v-col-12)
   padding: 0 12px
+
+:deep(.v-selection-control)
+  justify-content: center
 </style>

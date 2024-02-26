@@ -29,7 +29,8 @@
   </template>
   <VContainer class="d-flex align-center">
     <VBtn to="/" :active="false">
-      <VAppBarTitle style="color: #fff;" class="font-weight-medium text-h5">台北動物醫院</VAppBarTitle>
+      <VAppBarTitle style="color: #fff;"
+        class="font-weight-medium text-h5">台北動物醫院</VAppBarTitle>
     </VBtn>
     <VSpacer />
     <!-- 漢堡 -->
@@ -62,8 +63,8 @@
   </VContainer>
 </VAppBar>
 <VMain :class="{
-  'bg-grey-lighten-2': route.name === 'Account',
-  'p-0': true }">
+  'bg-grey-lighten-3': route.name === 'Account' || route.name === 'Appoint',
+  'pa-0': true }">
   <RouterView />
 </VMain>
 <!-- 手機版 -->
@@ -141,7 +142,6 @@ const logout = async () => {
 </script>
 
 <style scoped lang="sass">
-
 .navbar
   background-color: #fff
   padding: var(--navbar-padding, 6px 8px)

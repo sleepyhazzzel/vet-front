@@ -48,13 +48,12 @@
                 </VTabs>
               </VCol>
               <VCol cols="12" sm="10" :class="isDesktop ? '' : 'py-0'">
-                <VWindow v-model="tab"
-                  class="pa-3 rounded bg-grey-lighten-2"
-                  touch>
+                <!-- class="pa-3 rounded bg-grey-lighten-2" -->
+                <VWindow v-model="tab" touch>
                   <VWindowItem v-for="(pet, n) in pets" :key="n" :value="n">
-                    <VCard class="pa-3 mb-3">
-                      <VCardTitle class="card-title">基本資料</VCardTitle>
-                        <VCard class="mx-2" flat>
+                    <VCard class="pa-3 mb-3 elevation-0">
+                      <VCardTitle class="mb-3 card-title">基本資料</VCardTitle>
+                        <VCard class="mx-2 mb-2" flat>
                           <template #prepend>
                           <VAvatar :size="isDesktop ? '60' : '40'" class="me-2">
                             <VImg :src="pet.image" cover />
@@ -94,7 +93,8 @@
                           </VCardText>
                         </VSheet>
                     </VCard>
-                    <VCard>
+                    <VDivider class="my-3" />
+                    <VCard class="elevation-0">
                       <VCardTitle class="ma-3 card-title">掛號紀錄</VCardTitle>
                       <AppointTable :id="pet._id" />
                     </VCard>

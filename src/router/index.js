@@ -37,7 +37,8 @@ const routes = [
         name: 'Account',
         component: () => import('@/views/client/AccountView.vue'),
         meta: {
-          title: '台北動物醫院 | 個人帳號'
+          title: '台北動物醫院 | 個人帳號',
+          name: '個人帳號'
         }
       }
     ]

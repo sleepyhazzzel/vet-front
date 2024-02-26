@@ -72,7 +72,7 @@
                       v-bind="props" />
                   </template>
                   <VDatePicker
-                    @input="isMenuOpen = false"
+                    @update:model-value="isMenuOpen = false"
                     v-model="DateValue"
                     color="teal" />
                 </VMenu>
