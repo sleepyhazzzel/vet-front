@@ -25,7 +25,7 @@
   scroll-threshold="100"
   >
   <template #image>
-    <VImg gradient="45deg, #009688, #80CBC4" />
+    <VImg gradient="45deg, #26A69A, #80CBC4" />
   </template>
   <VContainer class="d-flex align-center">
     <VBtn to="/" :active="false">
@@ -62,9 +62,7 @@
     </template>
   </VContainer>
 </VAppBar>
-<VMain :class="{
-  'bg-grey-lighten-3': route.name === 'Account' || route.name === 'Appoint' || route.name === 'Status',
-  'pa-0': true }">
+<VMain class="bg-grey-lighten-3 pa-0">
   <RouterView />
 </VMain>
 <!-- 手機版 -->
@@ -89,14 +87,13 @@
 <script setup>
 import { useDisplay } from 'vuetify'
 import { ref, computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'
 import { useSnackbar } from 'vuetify-use-dialog'
 import { useApi } from '@/composables/axios'
 
 const drawer = ref(false)
 const selectedNavItem = ref(0)
-const route = useRoute()
 const router = useRouter()
 const user = useUserStore()
 const createSnackbar = useSnackbar()
@@ -108,7 +105,7 @@ const isMobile = computed(() => xs.value)
 
 const navItems = computed(() => {
   return [
-    { to: '/', text: '首頁', show: isPad.value, icon: 'mdi-home' },
+    { to: '/', text: '首頁', show: isMobile.value || isPad.value, icon: 'mdi-home' },
     { to: '/appoint', text: '預約掛號', show: true, icon: 'mdi-calendar' },
     { to: '/status', text: '看診進度', show: true, icon: 'mdi-calendar-search' },
     { to: '/setup', text: '註冊登入', show: !user.isLogin, icon: 'mdi-login-variant' },
@@ -150,7 +147,7 @@ const logout = async () => {
   background-color: #fff
   padding: var(--navbar-padding, 6px 8px)
   border-radius: 30px
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1)
+  box-shadow: 0 0 10px rgba(0, 150, 136, 0.1)
 
 .p-0
   padding-top: 0 !important

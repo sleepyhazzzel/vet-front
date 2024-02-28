@@ -4,55 +4,49 @@
   <div class="circle-top"></div>
   <div class="circle-bottom"></div>
 </div>
-<VContainer
-  :style="isDesktop ? '' : 'margin-top: 10vh;'">
+<VContainer :style="isDesktop ? 'margin-top: 20vh;' : 'margin-top: 10vh;'">
   <VRow>
     <VCol cols="12" md="10" offset-md="1" class="pt-0">
       <div v-if="!isDesktop" class="ma-3 title">看診進度</div>
       <VCard style="background: rgba(255, 255, 255, 0.7);"
         height="calc(200px + 30vh)" class="pa-6" rounded="lg" flat>
-        <!-- <VCardTitle v-if="isDesktop" style="color: #009688;">
-          <VIcon color="teal" class="pe-2 mb-1">mdi-calendar-search</VIcon>
-          看診進度
-        </VCardTitle> -->
-        <VDataTable
-          :headers="headers"
-          :items="appointments"
-          :loading="tableLoading"
-          >
-          <!-- 關footer -->
-          <template #bottom></template>
-        </VDataTable>
-        <div class="mt-3 ms-2 text-caption">
-          <div>※ 上午診 09:00 ~ 12:00 、 下午診 14:00 ~ 17:00 、 夜間診 18:00 ~ 21:00</div>
+        <VCardTitle class="mb-3">
+          <VIcon icon="mdi-calendar-search" color="teal"></VIcon>
+          <span class="ms-2 mt-1" style="color: #009688;">看診進度</span>
+        </VCardTitle>
+          <VDataTable
+            :headers="headers"
+            :items="appointments"
+            :loading="tableLoading"
+            >
+            <!-- 關footer -->
+            <template #bottom></template>
+          </VDataTable>
+          <div class="mt-3 ms-2 text-caption">
+            <div>※ 上午診 09:00 ~ 12:00 、 下午診 14:00 ~ 17:00 、 夜間診 18:00 ~ 21:00</div>
+          </div>
+          <div style="height: 13.5vh;"></div>
+        <div class="d-flex justify-space-between">
+          <VBtn to="/appoint" variant="tonal" color="teal" rounded="pill" flat class="px-6" prepend-icon="mdi-arrow-left">預約掛號</VBtn>
+          <VBtn v-if="user.isLogin" to="/account" variant="tonal" color="teal" rounded="pill" flat class="px-6" append-icon="mdi-arrow-right">個人帳號</VBtn>
+          <VBtn v-else to="/setup" variant="tonal" color="teal" rounded="pill" flat class="px-6" append-icon="mdi-arrow-right">註冊登入</VBtn>
         </div>
       </VCard>
     </VCol>
   </VRow>
 </VContainer>
-<!-- <VContainer class="h-screen d-flex justify-center align-center">
-  <VRow>
-    <VCol cols="12" md="6" v-for="appoint in appointments" :key="appoint">
-      <VCard style="background: rgba(255, 255, 255, 0.8);"
-        rounded="lg" class="pa-6"
-        >
-        <div class="title">{{ appoint.doctor_name }}
-          <span class="text-button">獸醫師</span>
-        </div>
-      </VCard>
-    </VCol>
-  </VRow>
-</VContainer> -->
 </template>
 
 <script setup>
 import { api } from '@/composables/axios-admin'
 import { ref, computed } from 'vue'
 import { useDisplay } from 'vuetify'
+import { useUserStore } from '@/store/user'
 
 const appointments = ref([])
 const tableLoading = ref(false)
 const { smAndUp } = useDisplay()
+const user = useUserStore()
 
 const isDesktop = computed(() => smAndUp.value)
 

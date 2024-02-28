@@ -3,7 +3,7 @@
   <VCard elevated="6">
     <VToolbar>
       <VBtn icon="mdi-account-minus"></VBtn>
-      <VToolbarTitle class="font-weight-light">刪除管理員
+      <VToolbarTitle class="font-weight-light">停用管理員
       </VToolbarTitle>
       <VBtn icon @click="isEditing = !isEditing" class="text-end">
         <VFadeTransition leave-absolute>
@@ -19,7 +19,7 @@
         color="error"
         border="start"
         icon="mdi-alert-circle-outline"
-        text="刪除後無法復原，請謹慎操作"
+        text="停用後無法復原，請謹慎操作"
         class="mb-3" />
       <VSelect
         label="帳號"
@@ -40,12 +40,12 @@
       <VRow>
         <VCol class="d-flex">
           <VCheckbox
-            label="確認刪除"
+            label="確認停用"
             color="teal"
             density="compact"
             v-model="checkbox.value.value"
             :error-messages="checkbox.errorMessage.value" />
-          <VBtn text="刪除" color="teal" class="mt-1" />
+          <VBtn text="停用" color="teal" class="mt-1" />
         </VCol>
       </VRow>
     </VCardText>

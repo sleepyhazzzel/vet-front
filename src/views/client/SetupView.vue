@@ -1,7 +1,7 @@
 <template>
   <div class="bg"></div>
-  <VContainer>
-    <VRow align="center" style="height: 100vh">
+  <VContainer class="h-screen d-flex align-center">
+    <VRow>
       <VCol cols="8" md="5" offset="2" offset-md="7" >
         <VTabs v-model="tab" color="teal" fixed-tabs align-tabs="center">
           <VTab :value="1"
@@ -11,7 +11,7 @@
             rounded="t-xl"
             :class="tab === 2 ? 'tab-white text-h6' : 'tab-grey'">登入</VTab>
         </VTabs>
-        <VCard elevation="4" rounded="b-xl t-0" 
+        <VCard elevation="4" rounded="b-xl t-0"
           style="background: rgba(255, 255, 255, 0.6);">
           <v-window v-model="tab">
             <v-window-item :value="1">
@@ -45,7 +45,7 @@ const shift = () => {
 
 <style scoped lang="sass">
   .bg
-    background: linear-gradient(to top right, rgba(0, 0, 0, 0.4), rgba(0, 150, 136, 0.4)), center / cover no-repeat url('@/assets/login-background.jpg')
+    background: linear-gradient(to top right, rgba(255, 255, 255, 0.4), rgba(0, 150, 136, 0.4)), center / cover no-repeat url('@/assets/login-background.jpg')
     filter: blur(5px)
     -webkit-filter: blur(5px)
     position: absolute

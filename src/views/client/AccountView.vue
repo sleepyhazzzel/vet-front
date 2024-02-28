@@ -52,8 +52,7 @@
                   </VTab>
                 </VTabs>
               </VCol>
-              <VCol cols="12" sm="10" :class="isDesktop ? '' : 'py-0'">
-                <!-- class="pa-3 rounded bg-grey-lighten-2" -->
+              <VCol cols="12" sm="10" class="pb-2">
                 <VWindow v-model="tab" touch>
                   <VWindowItem v-for="(pet, n) in pets" :key="n" :value="n">
                     <VCard class="pa-0 mb-3" flat style="background-color: #ffffff00;">
@@ -84,12 +83,12 @@
                                 <p>體重</p>
                                 <span class="text-h6">{{ pet.weight }}</span>(g)
                               </VCol>
-                              <VDivider v-if="isDesktop" color="teal" vertical />
+                              <VDivider v-if="isDesktop" color="teal" class="my-2" vertical />
                               <VCol cols="12" sm="4">
                                 <p>年齡</p>
                                 <span class="text-h6">{{ pet.age }}</span> 歲 <span class="text-h6">{{ pet.month }}</span> 月
                               </VCol>
-                              <VDivider v-if="isDesktop" color="teal" vertical />
+                              <VDivider v-if="isDesktop" color="teal" class="my-2" vertical />
                               <VCol cols="12" sm="4">
                                 <p>出生日期</p>
                                 <span class="text-h6">{{ pet.birth }}</span>
