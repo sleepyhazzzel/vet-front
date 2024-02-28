@@ -1,11 +1,16 @@
 <template>
-  <div class="bg"></div>
-  <VContainer :style="isDesktop ? 'margin-top: -11vh;' : 'margin-top: -20vh;'">
+<div class="overflow">
+  <div v-if="isDesktop" class="image-paw"></div>
+  <div class="circle-top"></div>
+  <div class="circle-bottom"></div>
+</div>
+  <!-- <div class="bg"></div> -->
+  <VContainer :style="isDesktop ? 'margin-top: 20vh;' : 'margin-top: 10vh;'">
     <VRow>
-      <VCol cols="12" md="10" offset-md="1">
+      <VCol cols="12" md="10" offset-md="1" class="pt-0">
         <div v-if="!isDesktop" class="ma-3 title">個人帳號</div>
-        <VCard class="px-4 py-2">
-          <VList class="pb-0">
+        <VCard class="px-4 py-2" rounded="lg" style="background: rgba(255, 255, 255, 0.8);" flat>
+          <VList class="pb-0" bg-color="transparent">
             <VListItem
               :prepend-avatar="prependAdvatar" class="pe-0">
                 <v-list-item-title>
@@ -19,7 +24,7 @@
           </VList>
           <VDivider class="my-1" />
           <div>
-            <VList class="pa-0 d-flex flex-column flex-md-row justify-md-space-between overflow-hidden" disabled>
+            <VList class="pa-0 d-flex flex-column flex-md-row justify-md-space-between overflow-hidden" disabled bg-color="transparent">
               <VListItem v-for="item in userItems" :key="item"
                 :prepend-icon="item.icon">{{ item.text }}
               </VListItem>
@@ -28,7 +33,7 @@
         </VCard>
       </VCol>
       <VCol cols="12" md="10" offset-md="1">
-        <VCard class="pa-3">
+        <VCard class="pa-3" rounded="lg" style="background: rgba(255, 255, 255, 0.7);" flat>
           <div class="d-flex justify-space-between">
             <VCardTitle class="card-title">寵物資料</VCardTitle>
             <AddPet @update="getPets" />
@@ -42,7 +47,7 @@
                   color="teal">
                   <VTab v-for="(pet, n) in pets" :key="n" :value="n"
                     :class="tab === n ? 'tab-focus' : ''"
-                    :rounded="isDesktop ? 'e' : 't'">
+                    :rounded="isDesktop ? 'e-lg' : 't-lg'">
                     {{ pet.name }}
                   </VTab>
                 </VTabs>
@@ -51,9 +56,9 @@
                 <!-- class="pa-3 rounded bg-grey-lighten-2" -->
                 <VWindow v-model="tab" touch>
                   <VWindowItem v-for="(pet, n) in pets" :key="n" :value="n">
-                    <VCard class="pa-3 mb-3 elevation-0">
-                      <VCardTitle class="mb-3 card-title">基本資料</VCardTitle>
-                        <VCard class="mx-2 mb-2" flat>
+                    <VCard class="pa-0 mb-3" flat style="background-color: #ffffff00;">
+                      <VCardTitle class="ma-3 card-title">基本資料</VCardTitle>
+                        <VCard class="mx-2 mb-2" flat style="background-color: #ffffff00;">
                           <template #prepend>
                           <VAvatar :size="isDesktop ? '60' : '40'" class="me-2">
                             <VImg :src="pet.image" cover />
@@ -93,8 +98,8 @@
                           </VCardText>
                         </VSheet>
                     </VCard>
-                    <VDivider class="my-3" />
-                    <VCard class="elevation-0">
+                    <VDivider />
+                    <VCard class="pa-0 mb-1" flat style="background-color: #ffffff00;">
                       <VCardTitle class="ma-3 card-title">掛號紀錄</VCardTitle>
                       <AppointTable :id="pet._id" />
                     </VCard>
@@ -107,27 +112,6 @@
       </VCol>
     </VRow>
   </VContainer>
-  <!-- <VDialog v-model="dialog" max-width="300" persistent>
-    <VCard>
-      <VCardText>
-        <div class="text-center">
-          <div class="text-h6 mt-3 mb-8">確定取消預約掛號？</div>
-          <div class="mb-3">
-            <VBtn
-              color="teal"
-              class="me-3"
-              variant="text"
-              @click="dialog = false">取消
-            </VBtn>
-            <VBtn
-              color="teal"
-              @click="delAppoint">確定
-            </VBtn>
-          </div>
-        </div>
-      </VCardText>
-    </VCard>
-  </VDialog> -->
 </template>
 
 <script setup>
@@ -190,11 +174,44 @@ const userItems = computed(() => [
 </script>
 
 <style scoped lang="sass">
+.overflow
+  overflow: hidden
+  position: fixed
+  top: 0
+  left: 0
+  width: 100%
+  height: 100vh
+.image-paw
+  position: absolute
+  top: 0
+  left: 0
+  width: 100%
+  height: 100vh
+  background: 105% 0% / 290px no-repeat url('@/assets/paw.png')
+.circle-top
+  position: absolute
+  bottom: 70vh
+  right: 40vw
+  width: calc(600px + 20vw)
+  height: calc(600px + 20vw)
+  background: linear-gradient(to bottom right, #009688 40%, #E0F2F1 100%)
+  border-radius: 50%
+  filter: blur(10px)
+.circle-bottom
+  position: absolute
+  bottom: -30vh
+  right: 25vw
+  width: calc(300px + 12vw)
+  height: calc(300px + 12vw)
+  background: linear-gradient(45deg, #009688, #E0F2F1)
+  border-radius: 50%
+  filter: blur(20px)
 .bg
   background-image: linear-gradient(45deg, #009688, #80CBC4)
   width: 100%
   height: 30vh
 .title
+  position: relative
   font-size: 1.8rem
   font-weight: 500
   color: white

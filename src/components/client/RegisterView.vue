@@ -57,7 +57,7 @@
           :error-messages="passwordConfirm.errorMessage.value" />
       </VCol>
       <VCol cols="12">
-        <VBtn type="submit" color="teal" block rounded size="large">註冊</VBtn>
+        <VBtn type="submit" color="teal" block rounded size="large" flat>註冊</VBtn>
       </VCol>
     </VRow>
   </VForm>

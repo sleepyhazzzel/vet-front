@@ -2,9 +2,10 @@
   <VBtn
     append-icon="mdi-pencil"
     color="teal" variant="tonal"
+    rounded
     @click="openDialog">編輯
   </VBtn>
-  <VDialog v-model="dialog" :width="500">
+  <VDialog v-model="dialog" :width="500" persistent>
     <VCard>
       <VForm :disabled="isSubmitting" @submit.prevent="submit">
         <VCardText>
@@ -47,8 +48,14 @@
             color="teal" variant="solo-filled" flat rounded="lg"
             v-model="address.value.value"
             :error-messages="address.errorMessage.value" />
-          <div class="text-end">
-            <VBtn type="submit" color="teal" class="mb-3">儲存</VBtn>
+          <div class="text-end mb-3">
+            <VBtn
+              color="teal"
+              variant="text"
+              class="me-3"
+              @click="dialog = false">取消
+            </VBtn>
+            <VBtn type="submit" color="teal">儲存</VBtn>
           </div>
         </VCardText>
       </VForm>

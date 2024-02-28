@@ -5,9 +5,6 @@
   <div class="circle-bottom"></div>
 </div>
 
-<!-- <div class="image2"></div> -->
-<!-- <div v-if="isDesktop" class="image"></div> -->
-<!-- <div class="banner"></div> -->
 <VForm>
 <VContainer :style="isDesktop ? 'margin-top: 20vh;' : 'margin-top: 10vh;'">
   <VRow>
@@ -74,6 +71,7 @@
             prepend-inner-icon="mdi-calendar"
             color="teal" rounded="lg"
             variant="solo"
+            hide-details
             readonly
             flat
             v-bind="props" />
@@ -86,6 +84,10 @@
           v-model="date"
           color="teal" />
       </VMenu>
+      <div class="mt-3 ms-2 mb-5 text-caption" style="position: relative;">
+        <div>※ 預約開放時間為當日開始一個月整</div>
+        <div>※ 夜間診只開放星期五、六</div>
+      </div>
     </VCol>
     <VCol cols="12" sm="5" class="py-0">
       <VCard v-for="(appoint, n) in appoints" :key="n" class="mb-5"
@@ -122,6 +124,9 @@ import { useDisplay, useDate } from 'vuetify'
 import { useApi } from '@/composables/axios'
 import { useUserStore } from '@/store/user'
 import { useSnackbar } from 'vuetify-use-dialog'
+import morningIcon from '@/assets/morning_icon.png'
+import eveningIcon from '@/assets/evening_icon.png'
+import nightIcon from '@/assets/night_icon.png'
 
 const isMenuOpen = ref(false)
 const allowedDates = ref()
@@ -193,21 +198,21 @@ const appoints = ref([
   {
     title: '上午診',
     subtitle: '09:00 - 12:00',
-    image: 'https://github.com/sleepyhazzzel/vet-front/blob/main/src/assets/morning_icon.png?raw=true',
+    image: morningIcon,
     text: '預約',
     full: false
   },
   {
     title: '下午診',
     subtitle: '14:00 - 17:00',
-    image: 'https://github.com/sleepyhazzzel/vet-front/blob/main/src/assets/evening_icon.png?raw=true',
+    image: eveningIcon,
     text: '預約',
     full: false
   },
   {
     title: '夜間診',
     subtitle: '18:00 - 21:00',
-    image: 'https://github.com/sleepyhazzzel/vet-front/blob/main/src/assets/night_icon.png?raw=true',
+    image: nightIcon,
     text: '預約',
     full: false
   }
@@ -236,6 +241,18 @@ const findAppointments = async () => {
 }
 
 const submit = async (timing) => {
+  if (!pet.value) {
+    createSnackbar({
+      text: '請先選擇寵物',
+      showCloseButton: false,
+      snackbarProps: {
+        timeout: 2000,
+        color: 'red',
+        location: 'bottom'
+      }
+    })
+    return
+  }
   try {
     const { data } = await api.get('/appointments/order', {
       params: {
@@ -260,6 +277,7 @@ const submit = async (timing) => {
       showCloseButton: true,
       snackbarProps: {
         color: 'teal',
+        timeout: 10000,
         location: 'bottom'
       }
     })
@@ -287,18 +305,18 @@ const submit = async (timing) => {
 
 .overflow
   overflow: hidden
-  position: absolute
+  position: fixed
+  top: 0
+  left: 0
   width: 100%
   height: 100vh
-
 .image-paw
   position: absolute
   top: 0
   left: 0
   width: 100%
   height: 100vh
-  background: 100% 0% / 20% no-repeat url('@/assets/paw.png')
-
+  background: 105% 0% / 290px no-repeat url('@/assets/paw.png')
 .circle-top
   position: absolute
   bottom: 70vh
@@ -308,7 +326,6 @@ const submit = async (timing) => {
   background: linear-gradient(to bottom right, #009688 40%, #E0F2F1 100%)
   border-radius: 50%
   filter: blur(10px)
-
 .circle-bottom
   position: absolute
   bottom: -30vh
@@ -318,17 +335,14 @@ const submit = async (timing) => {
   background: linear-gradient(45deg, #009688, #E0F2F1)
   border-radius: 50%
   filter: blur(20px)
-
 .title
   position: relative
   font-size: 1.8rem
   font-weight: 500
   color: white
-
 .card-title
   font-size: calc(1rem + 1vw)
   font-weight: 400
-
 .card-subtitle
   font-size: calc(0.5rem + 0.5vw)
   font-weight: 400

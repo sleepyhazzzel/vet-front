@@ -25,6 +25,14 @@ const routes = [
         }
       },
       {
+        path: 'status',
+        name: 'Status',
+        component: () => import('@/views/client/ClinicStatus.vue'),
+        meta: {
+          title: '台北動物醫院 | 看診進度'
+        }
+      },
+      {
         path: 'setup',
         name: 'Setup',
         component: () => import('@/views/client/SetupView.vue'),

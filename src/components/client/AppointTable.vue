@@ -9,7 +9,7 @@
     :class="tableClass"
     >
     <template #[`item.actions`]="{ item }">
-      <VBtn v-if="!item.status"
+      <VBtn v-if="!item.status && isFuture(item.date)"
         color="teal"
         variant="text"
         @click="cancel(item)">取消
@@ -60,6 +60,10 @@ const route = useRoute()
 const tableClass = computed(() => {
   return route.meta.name.includes('病歷') ? 'mb-4 elevation-1' : 'pa-3'
 })
+
+const isFuture = (date) => {
+  return new Date(date) >= new Date()
+}
 
 const headers = [
   { title: '日期', key: 'date' },

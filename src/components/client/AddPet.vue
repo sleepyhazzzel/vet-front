@@ -1,7 +1,7 @@
 <template>
   <VBtn
     color="teal" variant="tonal"
-    class="mt-1"
+    class="mt-1" rounded
     append-icon="mdi-plus-circle-outline"
     @click="openDialog">新增寵物
   </VBtn>

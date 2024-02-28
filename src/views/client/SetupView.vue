@@ -11,7 +11,8 @@
             rounded="t-xl"
             :class="tab === 2 ? 'tab-white text-h6' : 'tab-grey'">登入</VTab>
         </VTabs>
-        <VCard elevation="4" rounded="b-xl t-0">
+        <VCard elevation="4" rounded="b-xl t-0" 
+          style="background: rgba(255, 255, 255, 0.6);">
           <v-window v-model="tab">
             <v-window-item :value="1">
               <v-container fluid class="mt-2">
@@ -55,16 +56,18 @@ const shift = () => {
 
   .tab-white
     background-color: #fff
-    letter-spacing: 10px !important
+    letter-spacing: 3px !important
     font-weight: 700
     transition: all 0.3s
+    padding-top: 1px
+    box-shadow: 0 0 2px 2px #aaaaaa99
 
   .tab-grey
-    color: #999
-    background-color: #ddd
+    color: #777
+    // background-color: #ddd
     transition: all 0.3s
 
   :deep(.v-slide-group__container)
     border-radius: 30px 30px 0 0
-    background-color: #ddd
+    background-color: #ccccccaa
 </style>

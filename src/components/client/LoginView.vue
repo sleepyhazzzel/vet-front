@@ -21,7 +21,7 @@
           :error-messages="password.errorMessage.value">
         </VTextField>
         <VCheckbox label="記住我的帳號" color="teal" />
-        <VBtn type="submit" color="teal" block rounded size="large">登入</VBtn>
+        <VBtn type="submit" color="teal" block rounded size="large" flat>登入</VBtn>
       </VForm>
     </VCol>
   </VRow>
