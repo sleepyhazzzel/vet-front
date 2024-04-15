@@ -2,14 +2,14 @@
 <VContainer>
   <VForm :disabled="isSubmitting" @submit.prevent="submit">
     <VRow>
-      <VCol cols="6" class="py-0">
+      <VCol cols="12" sm="6" class="py-0">
         <VTextField
           label="姓名" type="text"
           color="teal" variant="solo-filled" flat rounded="lg"
           v-model="user_name.value.value"
           :error-messages="user_name.errorMessage.value" />
       </VCol>
-      <VCol cols="6" class="py-0">
+      <VCol cols="12" sm="6" class="py-0">
         <VSelect
           label="稱謂"
           :items="['先生', '女士']"
@@ -39,7 +39,7 @@
           v-model="phone.value.value"
           :error-messages="phone.errorMessage.value" />
       </VCol>
-      <VCol cols="6" class="py-0">
+      <VCol cols="12" sm="6" class="py-0">
         <VTextField
           label="密碼" type="password"
           color="teal" variant="solo-filled" flat rounded="lg"
@@ -48,7 +48,7 @@
           v-model="password.value.value"
           :error-messages="password.errorMessage.value" />
       </VCol>
-      <VCol cols="6" class="py-0">
+      <VCol cols="12" sm="6" class="py-0">
         <VTextField
           label="確認密碼" type="password"
           color="teal" variant="solo-filled" flat rounded="lg"

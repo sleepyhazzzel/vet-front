@@ -2,7 +2,7 @@
   <div class="bg"></div>
   <VContainer class="h-screen d-flex align-center">
     <VRow>
-      <VCol cols="8" md="5" offset="2" offset-md="7" >
+      <VCol cols="10" md="5" offset="1" offset-md="7" >
         <VTabs v-model="tab" color="teal" fixed-tabs align-tabs="center">
           <VTab :value="1"
             rounded="t-xl"

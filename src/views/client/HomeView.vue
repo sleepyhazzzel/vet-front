@@ -13,7 +13,8 @@
       <VCol cols="12">
         <VCard rounded="xl" flat style="background-color: transparent; background: linear-gradient(to bottom, #ffffff00, #fff 70%);" >
           <VImg :src="Banner" height="calc(400px + 20vw)" cover></VImg>
-          <div class="logo animate__animated animate__fadeInUp"></div>
+          <div v-if="isDesktop" class="logo-right animate__animated animate__fadeInUp"></div>
+          <div v-else class="logo-center animate__animated animate__fadeInUp"></div>
         </VCard>
       </VCol>
     </VRow>
@@ -159,12 +160,20 @@ const contactInfo = [
   background: linear-gradient(45deg, #009688, #E0F2F1)
   border-radius: 50%
   filter: blur(10px)
-.logo
+.logo-right
   position: absolute
-  top: calc( 10px + 15vw )
-  right: 15vw
+  top: 18vw
+  right: calc( 10px + 10vw )
   width: 200px
   height: 200px
+  background: url('@/assets/logo.png') center / cover no-repeat
+.logo-center
+  position: absolute
+  top: 30px
+  left: 50%
+  transform: translateX(-50%)
+  width: 150px
+  height: 150px
   background: url('@/assets/logo.png') center / cover no-repeat
 .animate__fadeInUp
   animation-duration: 2s
