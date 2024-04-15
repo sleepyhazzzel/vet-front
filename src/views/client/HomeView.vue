@@ -15,8 +15,8 @@
           <VImg :src="Banner" height="calc(250px + 30vw)" cover />
           <div class="logo-right animate__animated animate__fadeInUp"></div>
         </VCard>
-        <VCard v-else rounded="xl" flat style="background: linear-gradient(to bottom, #ffffff00, #fff 50%);">
-          <VImg :src="Banner" min-width="120%" height="40vh" position="bottom" />
+        <VCard v-else rounded="xl" flat>
+          <VImg :src="Banner" min-width="120%" height="50vh" position="bottom" color="#fff" />
           <div class="logo-center animate__animated animate__fadeInUp"></div>
         </VCard>
       </VCol>
@@ -101,7 +101,7 @@ const isMd = computed(() => mdAndUp.value)
 onMounted(() => {
   if (isDesktop.value) {
     gsap.to('.right-img1', {
-      y: -300,
+      y: -400,
       ease: 'none',
       scrollTrigger: {
         trigger: '.overflow',
@@ -109,7 +109,7 @@ onMounted(() => {
       }
     })
     gsap.to('.right-img2', {
-      y: -300,
+      y: -400,
       ease: 'none',
       scrollTrigger: {
         trigger: '.overflow',

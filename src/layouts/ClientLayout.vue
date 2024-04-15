@@ -66,8 +66,8 @@
   <RouterView />
 </VMain>
 <!-- 手機版 -->
-<VFooter v-if="isMobile">
-  <VRow class="overflow-visible" style="height: 56px;">
+<VFooter v-if="isMobile" app>
+  <VRow class="overflow-visible">
     <VBottomNavigation mode="shift" bg-color="teal" v-model="selectedNavItem">
       <template v-for="item in navItems" :key="item">
         <VBtn v-if="item.show" :to="item.to" exact>
