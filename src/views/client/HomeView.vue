@@ -15,7 +15,7 @@
           <VImg :src="Banner" height="calc(250px + 30vw)" cover />
           <div class="logo-right animate__animated animate__fadeInUp"></div>
         </VCard>
-        <VCard v-else rounded="xl" flat>
+        <VCard v-else rounded="xl" flat style="background-color: #fff;">
           <VImg :src="Banner" min-width="120%" height="50vh" position="bottom" color="#fff" />
           <div class="logo-center animate__animated animate__fadeInUp"></div>
         </VCard>

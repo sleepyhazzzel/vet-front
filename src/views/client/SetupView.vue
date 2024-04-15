@@ -49,12 +49,12 @@ const isDesktop = computed(() => smAndUp.value)
 
 <style scoped lang="sass">
 .vh-100
-  height: calc( 100vh - 56px )
+  height: calc( 100vh - 56px ) !important
 .bg
   background: linear-gradient(to top right, rgba(255, 255, 255, 0.4), rgba(0, 150, 136, 0.4)), center / cover no-repeat url('@/assets/login-background.jpg')
   filter: blur(5px)
   -webkit-filter: blur(5px)
-  position: absolute
+  position: fixed
   top: -10px
   left: -10px
   right: -10px
