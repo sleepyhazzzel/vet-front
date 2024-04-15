@@ -6,7 +6,7 @@
 </div>
 
 <VForm>
-<VContainer :style="isDesktop ? 'margin-top: 20vh;' : 'margin-top: 10vh;'">
+<VContainer :style="isDesktop ? 'margin-top: 20vh;' : 'margin-top: 10vh; height: 100vh;'" >
   <VRow>
     <VCol cols="12" sm="7" class="py-0">
       <div v-if="!isDesktop" class="ma-3 title">預約掛號</div>

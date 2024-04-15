@@ -4,7 +4,7 @@
   <div class="circle-top"></div>
   <div class="circle-bottom"></div>
 </div>
-<VContainer :style="isDesktop ? 'margin-top: 20vh;' : 'margin-top: 10vh;'">
+<VContainer :style="isDesktop ? 'margin-top: 20vh;' : 'margin-top: 10vh; height: 100vh;'">
   <VRow>
     <VCol cols="12" md="10" offset-md="1" class="pt-0">
       <div v-if="!isDesktop" class="ma-3 title">看診進度</div>

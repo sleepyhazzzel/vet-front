@@ -11,10 +11,13 @@
   <VContainer style="margin-top: 9vh;">
     <VRow>
       <VCol cols="12">
-        <VCard rounded="xl" flat style="background-color: transparent; background: linear-gradient(to bottom, #ffffff00, #fff 70%);" >
-          <VImg :src="Banner" height="calc(400px + 20vw)" cover></VImg>
-          <div v-if="isDesktop" class="logo-right animate__animated animate__fadeInUp"></div>
-          <div v-else class="logo-center animate__animated animate__fadeInUp"></div>
+        <VCard v-if="isDesktop" rounded="xl" flat style="background-color: transparent; background: linear-gradient(to bottom, #ffffff00, #fff 70%);" >
+          <VImg :src="Banner" height="calc(250px + 30vw)" cover />
+          <div class="logo-right animate__animated animate__fadeInUp"></div>
+        </VCard>
+        <VCard v-else rounded="xl" flat style="background: linear-gradient(to bottom, #ffffff00, #fff 50%);">
+          <VImg :src="Banner" min-width="120%" height="40vh" position="bottom" />
+          <div class="logo-center animate__animated animate__fadeInUp"></div>
         </VCard>
       </VCol>
     </VRow>
@@ -96,22 +99,24 @@ const isDesktop = computed(() => smAndUp.value)
 const isMd = computed(() => mdAndUp.value)
 
 onMounted(() => {
-  gsap.to('.right-img1', {
-    y: -200,
-    ease: 'none',
-    scrollTrigger: {
-      trigger: '.overflow',
-      scrub: true
-    }
-  })
-  gsap.to('.right-img2', {
-    y: -200,
-    ease: 'none',
-    scrollTrigger: {
-      trigger: '.overflow',
-      scrub: true
-    }
-  })
+  if (isDesktop.value) {
+    gsap.to('.right-img1', {
+      y: -300,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.overflow',
+        scrub: true
+      }
+    })
+    gsap.to('.right-img2', {
+      y: -300,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.overflow',
+        scrub: true
+      }
+    })
+  }
 })
 
 const contactInfo = [
@@ -169,9 +174,9 @@ const contactInfo = [
   background: url('@/assets/logo.png') center / cover no-repeat
 .logo-center
   position: absolute
-  top: 30px
+  top: 20px
   left: 50%
-  transform: translateX(-50%)
+  transform: translateX(-50%) !important
   width: 150px
   height: 150px
   background: url('@/assets/logo.png') center / cover no-repeat
