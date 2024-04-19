@@ -1,4 +1,7 @@
 ## Veterinary Hospital Registration System (動物醫院掛號系統)
+- Developing Web Pages with ***Vue3***
+- [BackEnd Click Here ~ (後端點這)](https://github.com/sleepyhazzzel/vet-back)
+
 <br>
 
 > [!IMPORTANT]
@@ -19,7 +22,7 @@ const client = {
 - Admin -----> [Link](https://sleepyhazzzel.github.io/vet-front/#/admin)
 ```javascript
 const adminAccount = 'Name'
-const adminPassword = adminAccount.toLowerCase() // adminPassword = name
+const adminPassword = adminAccount.toLowerCase() // adminPassword = 'name'
 ```
 
 <br>
