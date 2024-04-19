@@ -1,4 +1,4 @@
-# Veterinary Hospital Registration System (動物醫院預約掛號系統)
+# Veterinary Hospital Registration System (動物醫院掛號系統)
 > [!IMPORTANT]
 > ***Render Free Web Service:*** <br>
 > It takes a few minutes to call the back-end data when you first enter the web page.<br>
