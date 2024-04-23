@@ -27,18 +27,19 @@ const adminPassword = adminAccount.toLowerCase() // adminPassword = 'name'
 
 <br>
 
-### Packages (套件)
+### 📂 Packages (套件)
 - Validate data correctness with [vee-validate](https://github.com/logaretm/vee-validate), [validator](https://github.com/validatorjs/validator.js), [taiwan-id-validate](https://github.com/enylin/taiwan-id-validator)
 - Make an appointment in admin page with [fullcalendar](https://github.com/fullcalendar/fullcalendar)
 - Use [vue-the-mask](https://github.com/vuejs-tips/vue-the-mask) [(Demo)](https://vuejs-tips.github.io/vue-the-mask/) to let long numbers more clearify
 
 <br>
 
-### Site Map (網站地圖)
+### 🗺️ Site Map (網站地圖)
 ![](https://github.com/sleepyhazzzel/vet-front/blob/main/src/assets/Sitemap.png)
 
 <br>
 
+### 🖥️ UI Design (使用介面設計)
 <table>
   <tr>
     <td width="200px">Registration System - Client <br>(掛號系統 - 用戶端)</td>
