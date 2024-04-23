@@ -39,9 +39,25 @@ const adminPassword = adminAccount.toLowerCase() // adminPassword = 'name'
 
 <br>
 
-### Registration System - Client (掛號系統 - 用戶端)
-![](https://github.com/sleepyhazzzel/vet-front/blob/main/src/assets/registration-client.png)
-### Current appointment number (目前看診進度)
-![](https://github.com/sleepyhazzzel/vet-front/blob/main/src/assets/current-status.png)
-### Account Setting (帳號設定)
-![](https://github.com/sleepyhazzzel/vet-front/blob/main/src/assets/Account.png)
+<table>
+  <tr>
+    <td width="200px">Registration System - Client <br>(掛號系統 - 用戶端)</td>
+    <td><img src="https://github.com/sleepyhazzzel/vet-front/blob/main/src/assets/registration-client.png"></td>
+  </tr>
+  <tr>
+    <td>Current appointment number <br>(目前看診進度)</td>
+    <td><img src="https://github.com/sleepyhazzzel/vet-front/blob/main/src/assets/current-status.png"></td>
+  </tr>
+  <tr>
+    <td>Account <br>(個人帳號)</td>
+    <td><img src="https://github.com/sleepyhazzzel/vet-front/blob/main/src/assets/Account.png"></td>
+  </tr>
+  <tr>
+    <td>Pet's medical <br>(寵物病例)</td>
+    <td><img src="https://github.com/sleepyhazzzel/vet-front/blob/main/src/assets/admin_medical.jpg"></td>
+  </tr>
+  <tr>
+    <td>Registration System - Admin <br>(掛號系統 - 管理端)</td>
+    <td><img src="https://github.com/sleepyhazzzel/vet-front/blob/main/src/assets/admin_reserve.jpg"></td>
+  </tr>
+</table>
