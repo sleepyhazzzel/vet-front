@@ -1,5 +1,5 @@
 ## Veterinary Hospital Registration System (動物醫院掛號系統)
-- Developing Web Pages with ***Vue3***
+- Developing Web Pages with ***Vue3, Vuetify3***
 - [BackEnd Click Here ~ (後端點這)](https://github.com/sleepyhazzzel/vet-back)
 
 <br>
