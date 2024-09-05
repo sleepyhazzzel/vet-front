@@ -6,10 +6,17 @@
   permanent>
   <VList v-if="admin.isAdminLogin">
     <VListItem
-      :prepend-avatar="prependAdvatar"
       :title="admin.account"
       :subtitle="admin.position">
-      <template v-slot:append>
+      <template #prepend>
+        <Avatar
+          :name="admin.account"
+          :variant="'beam'"
+          :size="80"
+          :colors="['#545454', '#7B8A84', '#B2DFDB', '#EDE7D5', '#B7CC18']"
+        />
+      </template>
+      <template #append>
         <VBtn
           variant="text"
           icon="mdi-chevron-left"
@@ -59,6 +66,7 @@ import { useSnackbar } from 'vuetify-use-dialog'
 import { useApi } from '@/composables/axios-admin'
 import { useRouter } from 'vue-router'
 // import { useDisplay } from 'vuetify'
+import Avatar from 'vue-boring-avatars'
 import BreadCrumb from '@/components/admin/BreadCrumb.vue'
 
 const drawer = ref(true)
@@ -84,10 +92,6 @@ const router = useRouter()
 //     return true
 //   }
 // })
-
-const prependAdvatar = computed(() => {
-  return `https://source.boringavatars.com/beam/120/${admin.account}?colors=545454,7B8A84,B2DFDB,EDE7D5,B7CC18`
-})
 
 const navItems = computed(() => {
   return [

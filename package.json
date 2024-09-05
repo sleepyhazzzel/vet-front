@@ -26,6 +26,7 @@
     "validator": "^13.11.0",
     "vee-validate": "^4.12.4",
     "vue": "^3.2.0",
+    "vue-boring-avatars": "^1.4.0",
     "vue-router": "^4.0.0",
     "vue-the-mask": "^0.11.1",
     "vuetify": "^3.0.0",

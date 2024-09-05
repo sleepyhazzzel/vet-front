@@ -11,15 +11,22 @@
         <div v-if="!isDesktop" class="ma-3 title">個人帳號</div>
         <VCard class="px-4 py-2" rounded="lg" style="background: rgba(255, 255, 255, 0.8);" flat>
           <VList class="pb-0" bg-color="transparent">
-            <VListItem
-              :prepend-avatar="prependAdvatar" class="pe-0">
-                <v-list-item-title>
-                  {{ user.user_name }}
-                  <span class="small-title"> ({{ user.honorific }})</span>
-                </v-list-item-title>
-                <template #append>
-                  <EditUserDialog />
-                </template>
+            <VListItem class="pe-0">
+              <template #prepend>
+                <Avatar
+                  :name="advatarName"
+                  :variant="'beam'"
+                  :size="isDesktop ? '80' : '60'"
+                  :colors="['#545454', '#7B8A84', '#B2DFDB', '#EDE7D5', '#B7CC18']"
+                />
+              </template>
+              <v-list-item-title>
+                {{ user.user_name }}
+                <span class="small-title"> ({{ user.honorific }})</span>
+              </v-list-item-title>
+              <template #append>
+                <EditUserDialog />
+              </template>
             </VListItem>
           </VList>
           <VDivider class="my-1" />
@@ -114,11 +121,12 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useUserStore } from '@/store/user'
 // import { useSnackbar } from 'vuetify-use-dialog'
 import { useApi } from '@/composables/axios'
 import { useDisplay } from 'vuetify'
+import Avatar from 'vue-boring-avatars'
 import EditUserDialog from '@/components/client/EditUserDialog.vue'
 import AddPet from '@/components/client/AddPet.vue'
 import AppointTable from '@/components/client/AppointTable.vue'
@@ -133,10 +141,9 @@ const pets = ref([])
 // const appointments = ref([])
 const isDesktop = computed(() => smAndUp.value)
 
-const prependAdvatar = computed(() => {
+const advatarName = onMounted(() => {
   // 中文名稱編碼轉換
-  const encode_name = encodeURIComponent(user.user_name)
-  return `https://source.boringavatars.com/beam/120/${encode_name}?colors=545454,7B8A84,B2DFDB,EDE7D5,B7CC18`
+  return encodeURIComponent(user.user_name)
 })
 
 const getPets = async () => {
