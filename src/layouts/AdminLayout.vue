@@ -14,6 +14,7 @@
           :variant="'beam'"
           :size="30"
           :colors="['#545454', '#7B8A84', '#B2DFDB', '#EDE7D5', '#B7CC18']"
+          class="mr-2"
         />
       </template>
       <template #append>
