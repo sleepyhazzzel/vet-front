@@ -15,14 +15,16 @@
 - Client -----> [Link](https://sleepyhazzzel.github.io/vet-front/#/setup)
 ``` javascript
 const client = {
-  Account: 'yangching.emily@gmail.com',
-  Password: 'w6e7r8'
+  account: 'yangching.emily@gmail.com',
+  password: 'w6e7r8'
 }
 ```
 - Admin -----> [Link](https://sleepyhazzzel.github.io/vet-front/#/admin)
 ```javascript
-const adminAccount = 'Name'
-const adminPassword = adminAccount.toLowerCase() // adminPassword = 'name'
+const admin = {
+  account: 'Name',
+  password: admin.account.toLowerCase() // 'name'
+}
 ```
 
 <br>
